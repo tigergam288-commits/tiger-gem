@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الجيم المحترفة</title>
+    <link rel="stylesheet" href="css/Normalize.css"/>
+    <link rel="stylesheet" href="css/fonts.css"/>
+    <link rel="stylesheet" href="css/all.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/media.css"/>
+
+    <style>
+    body {
+      background-color: #aaa;
+      font-family: "Cairo Play";
+    }
+    .img1 {
+      width: 100%;
+      margin-top:-75px;
+    }
+    .img2 {
+      width: 170px;
+      border-radius: 15px;
+      margin-left: 15px;
+      margin-top: -100px;
+      box-shadow: -7px 7px 9px black;
+      margin-bottom: 20px;
+    }
+    .counterenr-div-pepol {
+      width: 90%;
+      margin: 50px auto;
+      border: 4px solid rgb(220 120 0);
+      padding: 25px;
+      padding-top: 50px;
+      border-radius: 8px;
+      background-color: rgb(220 120 0 / .18);
+      box-shadow: -5px 5px 1px 0px gray;
+      position: relative;
+    }
+    .counterenr-div-pepol > h2 {
+      background-color: gray;
+      border-radius: 10px;
+      padding: 15px;
+      width: fit-content;
+      text-shadow: 0px 0px 9px black;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%,-60%);
+      text-wrap: nowrap;
+    }
+    .butAd,
+    .butPas,
+    .addBut {
+      border: 1px solid rgb(220 120 0);
+      padding: 10px;
+      border-radius: 8px;
+      background-color: rgb(50 50 50);
+      font-size: 20px;
+      box-shadow: 0px 5px 0px 1px rgb(220 120 0);
+      transition: all .15s;
+      position: absolute;
+      top: 150px;
+      right: 20px;
+      color: white;
+      text-shadow: 0px 0px 10px black,0px 0px 10px black;
+      cursor: pointer;
+    }
+    .butAd:active, .butPas:active, .addBut:active {
+      box-shadow: 0px 0px 0px 1.5px rgb(220 120 0);
+      transform: translateY(5px);
+    }
+    .two { transform: translateY(150%); width:170px; }
+    .two:active { transform: translateY(calc(150% + 5px)); }
+    
+    .three { transform: translateY(300%); width:170px; }
+    .three:active { transform: translateY(calc(300% + 5px)); }
+    
+    #pasInp-div {
+      width: 60%;
+      margin: 10px auto;
+      text-align: center;
+      padding: 10px;
+    }
+    .inpPas,
+    .inpAddPee,
+    .inpAddData,
+    .inpAddfenData {
+      width: 100%;
+      height: 50px;
+      border: 3px solid rgb(220 120 0);
+      border-radius: 9px;
+      font-size: 25px;
+      font-weight: bold;
+      outline: none !important;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+    .inpPas {
+      font-size: 45px;
+      letter-spacing: 9px;
+      text-align: center;
+    }
+    .inpPas::placeholder { font-size: 20px; letter-spacing: 0; }
+    
+    .butPas, .addBut {
+      margin: 20px auto;
+      padding: 10px 25px;
+      position: relative;
+      top: 0;
+      right: 0;
+      display: block;
+    }
+    
+    .inpAddPee, .inpAddData, .inpAddfenData {
+      width: 150px;
+      margin-left: -40px;
+      margin-bottom: 15px;
+    }
+    .inpAddPee {
+      font-size: 15px;
+    }
+    .inpAddPee::placeholder {
+      font-size: 20px;
+    }
+    #peeInp-div {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      margin: 20px auto;
+      color: white;
+    }
+    .form-group {
+      position: relative;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+    .form-group label {
+      position: absolute;
+      right: -30px;
+      font-size: 22.5px;
+      text-shadow: 0px 0px 9px black;
+      width: 160px;
+      color: black;
+    }
+    .checkbox-group {
+      margin-right: 180px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+    }
+    .checkbox-group input {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    .block { display: none !important; }
+
+    .member-card {
+      background-color: rgb(0 0 0 / 0.8);
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 12px;
+      color: white;
+      direction: rtl;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    .member-main-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .member-row-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: 1px dashed rgb(255 255 255 / 0.15);
+    }
+    .member-row-item:last-child {
+      border-bottom: none;
+    }
+    .control-actions-div {
+      background: rgb(50 50 50 / 0.9);
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      border-top: 2px solid rgb(220 120 0);
+    }
+    .btn-control {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      font-size: 14px;
+    }
+    .btn-delete { background-color: rgb(200 0 70); }
+    .btn-edit { background-color: rgb(220 120 0); }
+    .btn-renew { background-color: #008cba; }
+    .btn-pause { background-color: #6c757d; }
+    .btn-resume { background-color: #28a745; }
+    
+    h2 { color: black !important; }
+
+    .search-wrapper {
+      margin-bottom: 20px;
+      direction: rtl;
+    }
+    .smart-search-input {
+      width: 100%;
+      height: 45px;
+      border: 2px solid rgb(220 120 0);
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      box-sizing: border-box;
+      outline: none;
+      background-color: #fff;
+    }
+    .filter-tabs-container {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      direction: rtl;
+    }
+    .filter-tab {
+      padding: 6px 12px;
+      background: #555;
+      color: white;
+      border: 1px solid #777;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    .filter-tab.active-tab {
+      background: rgb(220 120 0);
+      border-color: rgb(220 120 0);
+      box-shadow: 0 0 5px rgb(220 120 0);
+    }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img src="img/img5.jpg" class="img1" />
+      <img class="img2" src="img/img2.jpg" alt="" />
+      <button id="addPee" class="butAd" type="button">اضافة مشتركين</button>
+      <button id="showPas" class="butAd two" type="button">تغيير رمز الامان</button>
+      <button id="controlBtn" class="butAd three" type="button">ازرار التحكم</button>
+    </header>
+    
+    <div id="pasInp-div"></div>
+    <div class="block" id="ppee">
+      <div id="peeInp-div"></div>
+    </div>
+    
+    <div class="counterenr-div-pepol">
+      <h2>لوحة البيانات</h2>
+      
+      <div class="search-wrapper">
+        <input type="text" id="smartSearchInp" class="smart-search-input" placeholder="🔍 ابحث عن اسم المشترك ...">
+      </div>
+      <div class="filter-tabs-container">
+        <button class="filter-tab active-tab" data-filter="all">الكل</button>
+        <button class="filter-tab" data-filter="expired">منتهي ❌</button>
+        <button class="filter-tab" data-filter="warning">اقل من 5 ايام ⚠️</button>
+        <button class="filter-tab" data-filter="unpaid">غير مدفوع 💰</button>
+        <button class="filter-tab" data-filter="paused">الموقوفين مؤقتاً ⏸️</button>
+      </div>
+
+      <div id="membersContainer"></div>
+    </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQsedUbO7ux3QEB42j5NEd9JMtS5K-s-Q",
+      authDomain: "tiger-gym-system-5a955.firebaseapp.com",
+      projectId: "tiger-gym-system-5a955",
+      storageBucket: "tiger-gym-system-5a955.firebasestorage.app",
+      messagingSenderId: "490575758789",
+      appId: "1:490575758789:web:aac8e332f6235aabbb77ac",
+      measurementId: "G-T3REQL414D"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // دالة سحرية لحفظ البيانات محلياً وسحابياً معاً
+    window.syncWithFirebase = async function(membersList) {
+      localStorage.setItem("gym_members", JSON.stringify(membersList));
+      try {
+        await setDoc(doc(db, "gym_data", "members_config"), { data: membersList });
+      } catch (e) {
+        console.error("خطأ في المزامنة السحابية:", e);
+      }
+    };
+
+    window.syncPasswordWithFirebase = async function(newPas) {
+      localStorage.setItem("pas", newPas);
+      try {
+        await setDoc(doc(db, "gym_data", "security_config"), { pas: newPas });
+      } catch (e) {
+        console.error("خطأ في رفع الباسورد الجديد:", e);
+      }
+    };
+
+    // جلب البيانات عند بدء تشغيل الصفحة لضمان المزامنة
+    async function loadCloudData() {
+      try {
+        const membersSnap = await getDoc(doc(db, "gym_data", "members_config"));
+        if (membersSnap.exists() && membersSnap.data().data) {
+          localStorage.setItem("gym_members", JSON.stringify(membersSnap.data().data));
+          window.gymMembers = membersSnap.data().data;
+          window.renderMembers();
+        }
+      } catch (e) {
+        console.log("نعمد على البيانات المحلية حالياً.");
+      }
+    }
+    loadCloudData();
+  </script>
+
+  <script>
+    let ispas = false;
+    let ispee = false;
+    let showControlsMode = false; 
+    let currentFilter = "all"; 
+    
+    window.gymMembers = JSON.parse(localStorage.getItem("gym_members")) || [];
+
+    let myBlock = document.getElementById("ppee");
+    let myButPas = document.getElementById("showPas");
+    let myDivPas = document.getElementById("pasInp-div");
+    let myAddPee = document.getElementById("addPee");
+    let myDivPee = document.getElementById("peeInp-div");
+    let controlBtn = document.getElementById("controlBtn");
+    let smartSearchInp = document.getElementById("smartSearchInp");
+
+    function calculateExpiryDate(startDateString, days) {
+      let startDate = new Date(startDateString);
+      startDate.setDate(startDate.getDate() + parseInt(days));
+      return startDate.toISOString().split('T')[0];
+    }
+
+    function getDaysLeft(expiryDateString) {
+      let today = new Date();
+      today.setHours(0,0,0,0);
+      let expiry = new Date(expiryDateString);
+      expiry.setHours(0,0,0,0);
+      let diffTime = expiry.getTime() - today.getTime();
+      return Math.ceil(diffTime / (1000 * 3600 * 24));
+    }
+
+    window.renderMembers = function() {
+      let container = document.getElementById("membersContainer");
+      container.innerHTML = "";
+      
+      let searchValue = smartSearchInp.value.trim().toLowerCase();
+
+      let filteredList = window.gymMembers.filter(function(member) {
+        let daysLeft = getDaysLeft(member.expiryDate);
+        if (currentFilter === "expired") return daysLeft <= 0 && !member.isPaused;
+        if (currentFilter === "warning") return daysLeft > 0 && daysLeft <= 5 && !member.isPaused;
+        if (currentFilter === "unpaid") return !member.isPaid;
+        if (currentFilter === "paused") return member.isPaused === true;
+        return true; 
+      });
+
+      if (searchValue !== "") {
+        let startsWithSearch = [];
+        let containsSearch = [];
+        filteredList.forEach(function(member) {
+          let mName = member.name.toLowerCase();
+          if (mName.startsWith(searchValue)) startsWithSearch.push(member);
+          else if (mName.includes(searchValue)) containsSearch.push(member);
+        });
+        filteredList = startsWithSearch.concat(containsSearch);
+      }
+      
+      if(filteredList.length === 0) {
+        container.innerHTML = `<p style="text-align:center; color:black; font-size:18px; margin-top:20px;">مفيش نتايج مطابقة للعرض حالياً</p>`;
+        return;
+      }
+
+      filteredList.forEach(function(member) {
+        let originalIndex = window.gymMembers.findIndex(m => m.id === member.id);
+        let daysLeft = getDaysLeft(member.expiryDate);
+        let statusColor = "lightgreen";
+        let statusText = ` (باقي ${daysLeft} يوم)`;
+
+        if (member.isPaused) {
+          statusColor = "#6c757d";
+          statusText = `موقوف مؤقتاً ⏸️ (متجمد له ${member.remainingDaysAtPause} يوم)`;
+        } else {
+          if (daysLeft <= 0) {
+            statusColor = "rgb(200 0 70)";
+            statusText = "منتهي ❌";
+          } else if (daysLeft <= 5) {
+            statusColor = "orange";
+            statusText = `تنبيه! (${daysLeft} أيام ⚠️)`;
+          }
+        }
+
+        let card = document.createElement("div");
+        card.className = "member-card";
+        card.style.borderRight = `8px solid ${statusColor}`;
+
+        let payStatusText = member.isPaid ? "<span style='color:lightgreen; font-weight:bold;'>تم الدفع مسبقاً ✅</span>" : "<span style='color:rgb(255 70 70); font-weight:bold;'>غير مدفوع ❌</span>";
+        
+        card.innerHTML = `
+          <div class="member-main-info">
+            <div class="member-row-item">
+              <span style="font-size: 16px; color: #aaa;">اسم المشترك:</span>
+              <strong style="font-size: 15px; color: #fff;">${member.name}</strong>
+            </div>
+            <div class="member-row-item">
+              <span style="font-size: 15px; color: #aaa;">فترة الاشتراك:</span>
+              <span style="font-size: 10px; color: #eee;">من ${member.joinDate} إلى ${member.expiryDate}</span>
+            </div>
+            <div class="member-row-item">
+              <span style="font-size: 15px; color: #aaa;">حالة الدفع :</span>
+              <span>${payStatusText}</span>
+            </div>
+            <div class="member-row-item" style="border-bottom: none; padding-top: 10px;">
+              <span style="font-size: 15px; color: #aaa;">حالة الاشتراك الفعلي:</span>
+              <strong style="color:${statusColor}; font-size: 18px;">${statusText}</strong>
+            </div>
+          </div>
+        `;
+
+        if (showControlsMode) {
+          let actionsDiv = document.createElement("div");
+          actionsDiv.className = "control-actions-div";
+
+          let deleteBtn = document.createElement("button");
+          deleteBtn.className = "btn-control btn-delete";
+          deleteBtn.innerText = "حذف الاشتراك";
+          deleteBtn.addEventListener("click", function() {
+            if(confirm(`هل أنت متأكد من حذف مشترك: ${member.name}؟`)) {
+              window.gymMembers.splice(originalIndex, 1);
+              window.syncWithFirebase(window.gymMembers);
+              window.renderMembers();
+            }
+          });
+
+          let editBtn = document.createElement("button");
+          editBtn.className = "btn-control btn-edit";
+          editBtn.innerText = "تعديل المعلومات";
+          editBtn.addEventListener("click", function() {
+            let newName = prompt("تعديل الاسم:", member.name);
+            let newDays = prompt("تعديل مدة الاشتراك بالأيام (مثال: 30):", "30");
+            let payPrompt = prompt("هل تم الدفع؟ (اكتب 'نعم' لتأكيد الدفع أو 'لا'):", member.isPaid ? "نعم" : "لا");
+            
+            if(newName && newDays) {
+              member.name = newName;
+              member.expiryDate = calculateExpiryDate(member.joinDate, newDays);
+              if (payPrompt === "نعم") member.isPaid = true;
+              if (payPrompt === "لا") member.isPaid = false;
+
+              window.syncWithFirebase(window.gymMembers);
+              window.renderMembers();
+            }
+          });
+
+          let renewBtn = document.createElement("button");
+          renewBtn.className = "btn-control btn-renew";
+          renewBtn.innerText = "تجديد الاشتراك 🔄";
+          renewBtn.addEventListener("click", function() {
+            if (member.isPaused) {
+              alert("يا كابتن فعل الاشتراك الأول قبل ما تجدده!");
+              return;
+            }
+            let extraDays = prompt(`كم عدد الأيام الجديدة لتجديد اشتراك الكابتن (${member.name})؟`, "30");
+            if(extraDays && !isNaN(extraDays)) {
+              let baseDate = new Date(); 
+              let oldExpiry = new Date(member.expiryDate);
+              let startDateForRenew = oldExpiry > baseDate ? member.expiryDate : baseDate.toISOString().split('T')[0];
+              
+              member.expiryDate = calculateExpiryDate(startDateForRenew, extraDays);
+              member.isPaid = true; 
+              
+              window.syncWithFirebase(window.gymMembers);
+              alert(`تم تجديد الاشتراك بنجاح وزيادة ${extraDays} يوم! 🎉`);
+              window.renderMembers();
+            }
+          });
+
+          let pauseToggleBtn = document.createElement("button");
+          pauseToggleBtn.className = member.isPaused ? "btn-control btn-resume" : "btn-control btn-pause";
+          pauseToggleBtn.innerText = member.isPaused ? "تفعيل الاشتراك ▶️" : "إيقاف مؤقت ⏸️";
+
+          pauseToggleBtn.addEventListener("click", function() {
+            if (!member.isPaused) {
+              let daysLeft = getDaysLeft(member.expiryDate);
+              if (daysLeft <= 0) {
+                alert("الاشتراك منتهي بالفعل يا فنان!");
+                return;
+              }
+              member.isPaused = true;
+              member.remainingDaysAtPause = daysLeft;
+            } else {
+              let todayStr = new Date().toISOString().split('T')[0];
+              member.expiryDate = calculateExpiryDate(todayStr, member.remainingDaysAtPause);
+              member.isPaused = false;
+              delete member.remainingDaysAtPause;
+            }
+            window.syncWithFirebase(window.gymMembers);
+            window.renderMembers();
+          });
+
+          actionsDiv.append(deleteBtn, editBtn, renewBtn, pauseToggleBtn);
+          card.append(actionsDiv);
+        }
+        container.append(card);
+      });
+    };
+
+    smartSearchInp.addEventListener("input", window.renderMembers);
+
+    document.querySelectorAll(".filter-tab").forEach(function(tab) {
+      tab.addEventListener("click", function() {
+        document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active-tab"));
+        tab.classList.add("active-tab");
+        currentFilter = tab.getAttribute("data-filter");
+        window.renderMembers(); 
+      });
+    });
+
+    myButPas.addEventListener("click",function(){
+      if(ispas === false){
+        ispas = true;
+        let myInpPas = document.createElement("input");
+        let myButPasSubmit = document.createElement("button");
+        
+        myInpPas.className = "inpPas"
+        myButPasSubmit.className = "butPas"
+        myButPasSubmit.innerHTML = "!تغيير"
+        myInpPas.setAttribute("type","number")
+        myInpPas.placeholder = "اكتب رمز الامان الجديد"
+        
+        myDivPas.append(myInpPas, myButPasSubmit);
+        
+        myInpPas.addEventListener("input",function(){
+          if(myInpPas.value.length > 6) myInpPas.value = myInpPas.value.slice(0 , 6);
+        });
+
+        myButPasSubmit.addEventListener("click", function(){
+          if(myInpPas.value.length === 6){
+            window.syncPasswordWithFirebase(myInpPas.value);
+            alert("تم تغيير رمز الامان بنجاح ورفعه أونلاين! 🔐");
+            myInpPas.value = "";
+          }else {
+            alert("⚠️اكتب 6 ارقام ‼️")
+          }
+        });
+      }else {
+        myDivPas.classList.toggle("block");
+      }
+    });
+    
+    myAddPee.addEventListener("click",function(){
+      if(ispee === false){
+        ispee = true;
+        myBlock.classList.remove("block");
+
+        myDivPee.innerHTML = `
+          <div class="form-group">
+            <label for="inpAddPee"><= اسم المشترك</label>
+            <input class="inpAddPee" id="inpAddPee" type="text" placeholder="الاسم ثلاثي">
+          </div>
+          <div class="form-group">
+            <label for="inpAddData"><= تاريخ الاشتراك</label>
+            <input class="inpAddData" id="inpAddData" type="date">
+          </div>
+          <div class="form-group">
+            <label for="inpAddfenData"><= مدة الاشتراك</label>
+            <input class="inpAddfenData" id="inpAddfenData" type="number" value="30">
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="payCheck">
+            <label for="payCheck" style="color:black;">هل تم الدفع؟ 💰</label>
+          </div>
+          <button class="addBut" id="submitMemberBtn" type="button">انشاء اشتراك!</button>
+        `;
+
+        document.getElementById("inpAddData").value = new Date().toISOString().split('T')[0];
+
+        document.getElementById("submitMemberBtn").addEventListener("click", function() {
+          let nameInp = document.getElementById("inpAddPee");
+          let dateInp = document.getElementById("inpAddData");
+          let daysInp = document.getElementById("inpAddfenData");
+          let payInp = document.getElementById("payCheck");
+
+          if(nameInp.value.trim() === "") {
+            alert("يا فنان أدخل اسم المشترك أولاً!");
+            return;
+          }
+
+          let expiry = calculateExpiryDate(dateInp.value, daysInp.value || 30);
+
+          let newMember = {
+            id: Date.now(),
+            name: nameInp.value.trim(),
+            joinDate: dateInp.value,
+            expiryDate: expiry,
+            isPaid: payInp.checked,
+            isPaused: false
+          };
+
+          window.gymMembers.push(newMember);
+          window.syncWithFirebase(window.gymMembers);
+          window.renderMembers();
+
+          nameInp.value = "";
+          payInp.checked = false;
+          alert("تم إنشاء الاشتراك وحفظه بنجاح! 🎉");
+        });
+      } else {
+        myBlock.classList.toggle("block");
+      }
+    });
+
+    controlBtn.addEventListener("click", function() {
+      showControlsMode = !showControlsMode; 
+      window.renderMembers(); 
+    });
+  </script>
+  </body>
+</html>
