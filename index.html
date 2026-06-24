@@ -15,13 +15,14 @@
       direction: rtl;
       position: relative;
       overflow: hidden;
+      background-color: black; 
     }
     body > img {
       position: absolute;
       z-index: -1;
       min-height: 100vh;
       max-width: 100vw;
-      opacity: .5;
+      opacity: .7;
     }
     .contuner-div {
       background-color: rgb(0 0 0/ .6);
@@ -78,11 +79,15 @@
       background-color: rgb(0 0 0/ .85);
       border-radius: 5px;
       padding: 20px 35px;
-      margin: 170px auto;
+      margin-top: 170px;
       font-size: 40px;
       font-weight: bold;
       box-shadow: 0px 0px 15px 2.5px red inset,0px 0px 10px 2.5px red;
       text-shadow: 0px 0px 8px red;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-wrap: nowrap;
     }
     .isttrree {
       border: 2px solid lightgreen;
@@ -91,11 +96,15 @@
       background-color: rgb(0 0 0/ .85);
       border-radius: 5px;
       padding: 20px 35px;
-      margin: 170px auto;
+      margin-top: 170px;
       font-size: 40px;
       font-weight: bold;
       box-shadow: 0px 0px 15px 2.5px lightgreen inset,0px 0px 10px 2.5px lightgreen;
       text-shadow: 0px 0px 8px white;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-wrap: nowrap;
     }
     </style>
   </head>
