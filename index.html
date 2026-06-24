@@ -13,6 +13,7 @@
     <style>
     body{
       background-image: url('img/img7.jpg')
+      background-size: cover;
       
     }
     .contuner-div {
@@ -175,7 +176,8 @@
         let inp6 = myInputs[5].value
         
         // تعديل الترتيب الصحيح للأرقام من 1 لـ 6
-        let pass = `${inp1}${inp2}${inp3}${inp4}${inp5}${inp6}`
+        let pass = `${inp6}${inp5}${inp4}${inp3}${inp2}${inp1}`
+
         
         myInputs.forEach(function(ele){
           if(ele.value === ""){
