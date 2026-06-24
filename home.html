@@ -1,4 +1,4 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8"/>
@@ -11,31 +11,46 @@
     <link rel="stylesheet" href="css/media.css"/>
 
     <style>
+    :root {
+      --mainColorBorder: rgb(250 220 10);
+    }
     body {
-      background-color: #aaa;
+      background-color: black;
       font-family: "Cairo Play";
+      
+      
+    }
+    body > .imge {
+      position: fixed;
+      z-index: -5;
+      opacity: .3;
+      width: 100%;
+      bottom: 0;
+    }
+    header {
+      position: relative;
+      margin-bottom: 50px;
     }
     .img1 {
       width: 100%;
-      margin-top:-75px;
+      margin-top:-100px;
     }
     .img2 {
-      width: 170px;
+      width: 200px;
       border-radius: 15px;
       margin-left: 15px;
-      margin-top: -100px;
+      margin-top: -30px;
       box-shadow: -7px 7px 9px black;
       margin-bottom: 20px;
     }
     .counterenr-div-pepol {
       width: 90%;
-      margin: 50px auto;
-      border: 4px solid rgb(220 120 0);
+      margin: 100px auto;
+      border: 4px solid var(--mainColorBorder);
       padding: 25px;
       padding-top: 50px;
       border-radius: 8px;
-      background-color: rgb(220 120 0 / .18);
-      box-shadow: -5px 5px 1px 0px gray;
+      background-color: rgb(110 60 0);
       position: relative;
     }
     .counterenr-div-pepol > h2 {
@@ -53,12 +68,12 @@
     .butAd,
     .butPas,
     .addBut {
-      border: 1px solid rgb(220 120 0);
+      border: 1px solid var(--mainColorBorder);
       padding: 10px;
       border-radius: 8px;
       background-color: rgb(50 50 50);
       font-size: 20px;
-      box-shadow: 0px 5px 0px 1px rgb(220 120 0);
+      box-shadow: 0px 5px 0px 1px var(--mainColorBorder);
       transition: all .15s;
       position: absolute;
       top: 150px;
@@ -66,15 +81,17 @@
       color: white;
       text-shadow: 0px 0px 10px black,0px 0px 10px black;
       cursor: pointer;
+      margin-right: -10px;
+      margin-top: 45px;
     }
     .butAd:active, .butPas:active, .addBut:active {
-      box-shadow: 0px 0px 0px 1.5px rgb(220 120 0);
+      box-shadow: 0px 0px 0px 1.5px var(--mainColorBorder);
       transform: translateY(5px);
     }
-    .two { transform: translateY(150%); width:170px; }
+    .two { transform: translateY(150%); width:150px; }
     .two:active { transform: translateY(calc(150% + 5px)); }
     
-    .three { transform: translateY(300%); width:170px; }
+    .three { transform: translateY(300%); width:290px; }
     .three:active { transform: translateY(calc(300% + 5px)); }
     
     #pasInp-div {
@@ -82,6 +99,12 @@
       margin: 10px auto;
       text-align: center;
       padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: -50px;
+      margin-top: 70px;
     }
     .inpPas,
     .inpAddPee,
@@ -89,7 +112,7 @@
     .inpAddfenData {
       width: 100%;
       height: 50px;
-      border: 3px solid rgb(220 120 0);
+      border: 3px solid var(--mainColorBorder);
       border-radius: 9px;
       font-size: 25px;
       font-weight: bold;
@@ -132,6 +155,9 @@
       border-radius: 8px;
       width: 80%;
       margin: 20px auto;
+      color: white ;
+    }
+    #peeInp-div label {
       color: white;
     }
     .form-group {
@@ -148,18 +174,28 @@
       width: 160px;
       color: black;
     }
-    .checkbox-group {
-      margin-right: 180px;
+    
+    /* ستايل صف الإدخال الجديد للفلوس المقسمة على الشاشة */
+    .money-inputs-group {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 18px;
+      gap: 15px;
+      width: 100%;
+      margin-bottom: 15px;
+      direction: rtl;
     }
-    .checkbox-group input {
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
+    .money-inputs-group input {
+      width: 50%; /* بيتقاسموا العرض بالظبط */
+      height: 50px;
+      border: 3px solid var(--mainColorBorder);
+      border-radius: 9px;
+      font-size: 20px;
+      font-weight: bold;
+      outline: none;
+      padding: 5px;
+      box-sizing: border-box;
+      text-align: center;
     }
+
     .block { display: none !important; }
 
     .member-card {
@@ -194,7 +230,7 @@
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      border-top: 2px solid rgb(220 120 0);
+      border-top: 2px solid var(--mainColorBorder);
     }
     .btn-control {
       padding: 8px 15px;
@@ -206,7 +242,7 @@
       font-size: 14px;
     }
     .btn-delete { background-color: rgb(200 0 70); }
-    .btn-edit { background-color: rgb(220 120 0); }
+    .btn-edit { background-color: var(--mainColorBorder) }
     .btn-renew { background-color: #008cba; }
     .btn-pause { background-color: #6c757d; }
     .btn-resume { background-color: #28a745; }
@@ -220,7 +256,7 @@
     .smart-search-input {
       width: 100%;
       height: 45px;
-      border: 2px solid rgb(220 120 0);
+      border: 2px solid var(--mainColorBorder);
       border-radius: 8px;
       padding: 10px;
       font-size: 18px;
@@ -247,20 +283,57 @@
       font-weight: bold;
       transition: all 0.2s;
     }
+    #pAd {
+      padding: 6px 12px;
+      background: #555;
+      color: white;
+      border: 1px solid #777;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 25px;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
     .filter-tab.active-tab {
-      background: rgb(220 120 0);
-      border-color: rgb(220 120 0);
-      box-shadow: 0 0 5px rgb(220 120 0);
+      background: var(--mainColorBorder);
+      border-color: var(--mainColorBorder);
+      box-shadow: 0 0 5px var(--mainColorBorder);
+    }
+    .oneS {
+      width: 50px;
+      height: 30px;
+      background-color: rgb(50 50 50);
+      border: 2px solid var(--mainColorBorder);
+      display: flex;
+      position: absolute;
+      left: 25px;
+      border-radius: 15px;
+      align-items: center; justify-content: flex-start;
+      padding: 4px;
+      padding-left: 4px;
+      padding-right: 4px;
+      transition: all .2s;
+    }
+    .twoS {
+      width: 23px;
+      height: 23px;
+      background-color: white;
+      opacity: .5;
+      display: block;
+      border-radius: 50%;
+      transition: all .2s;
     }
     </style>
   </head>
   <body>
+    <img class="imge" src="img/img11.png" alt="" />
     <header>
-      <img src="img/img5.jpg" class="img1" />
-      <img class="img2" src="img/img2.jpg" alt="" />
+      <img src="img/img9.jpg" class="img1" />
+      <img class="img2" src="img/img6.jpg" alt="" />
       <button id="addPee" class="butAd" type="button">اضافة مشتركين</button>
       <button id="showPas" class="butAd two" type="button">تغيير رمز الامان</button>
       <button id="controlBtn" class="butAd three" type="button">ازرار التحكم</button>
+      <span class="oneS"><span class="twoS"></span></span>
     </header>
     
     <div id="pasInp-div"></div>
@@ -280,6 +353,7 @@
         <button class="filter-tab" data-filter="warning">اقل من 5 ايام ⚠️</button>
         <button class="filter-tab" data-filter="unpaid">غير مدفوع 💰</button>
         <button class="filter-tab" data-filter="paused">الموقوفين مؤقتاً ⏸️</button>
+        <p id="pAd"></p>
       </div>
 
       <div id="membersContainer"></div>
@@ -298,6 +372,7 @@
       appId: "1:490575758789:web:aac8e332f6235aabbb77ac",
       measurementId: "G-T3REQL414D"
     };
+    
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
@@ -311,8 +386,8 @@
       }
     };
 
-    // تعديل الدالة لرفع الباسورد مباشرة للفايربيز فقط
     window.syncPasswordWithFirebase = async function(newPas) {
+      localStorage.setItem("pas", newPas);
       try {
         await setDoc(doc(db, "gym_data", "security_config"), { pas: newPas });
       } catch (e) {
@@ -336,6 +411,24 @@
   </script>
 
   <script>
+    let op = false
+    let isOpen = document.getElementById("controlBtn");
+    let mySpanO = document.querySelector(".oneS");
+    let mySpanT = document.querySelector(".twoS");
+    isOpen.addEventListener("click",function(){
+      if(op === false){
+        mySpanT.style.transform = "translateX(15px)"
+        op = true
+        mySpanT.style.backgroundColor = "white"
+        mySpanO.style.backgroundColor = "rgb(60, 120, 230)"
+        mySpanT.style.opacity = "1"
+      }else {
+        op = false
+        mySpanT.style.transform = "translateX(-.1px)"
+        mySpanT.style.backgroundColor = "gray"
+        mySpanO.style.backgroundColor = "rgb(50, 50, 50)"
+      }
+    })
     let ispas = false;
     let ispee = false;
     let showControlsMode = false; 
@@ -374,9 +467,13 @@
 
       let filteredList = window.gymMembers.filter(function(member) {
         let daysLeft = getDaysLeft(member.expiryDate);
+        
+        // تعديل فلترة "غير مدفوع" عشان تظهر أي كابتن عليه فلوس متبقية (باقي أكبر من 0)
+        let isUnpaid = (parseFloat(member.amountRemaining) || 0) > 0;
+        
         if (currentFilter === "expired") return daysLeft <= 0 && !member.isPaused;
         if (currentFilter === "warning") return daysLeft > 0 && daysLeft <= 5 && !member.isPaused;
-        if (currentFilter === "unpaid") return !member.isPaid;
+        if (currentFilter === "unpaid") return isUnpaid;
         if (currentFilter === "paused") return member.isPaused === true;
         return true; 
       });
@@ -393,6 +490,8 @@
       }
       
       if(filteredList.length === 0) {
+        let myPAD = document.getElementById("pAd");
+        myPAD.innerHTML = filteredList.length
         container.innerHTML = `<p style="text-align:center; color:black; font-size:18px; margin-top:20px;">مفيش نتايج مطابقة للعرض حالياً</p>`;
         return;
       }
@@ -420,7 +519,15 @@
         card.className = "member-card";
         card.style.borderRight = `8px solid ${statusColor}`;
 
-        let payStatusText = member.isPaid ? "<span style='color:lightgreen; font-weight:bold;'>تم الدفع مسبقاً ✅</span>" : "<span style='color:rgb(255 70 70); font-weight:bold;'>غير مدفوع ❌</span>";
+        // تجهيز وعرض المبالغ واصل وباقي بطريقة شيك جوة الكرت
+        let paidVal = member.amountPaid || "0";
+        let remainVal = member.amountRemaining || "0";
+        let remainColor = parseFloat(remainVal) > 0 ? "rgb(255 70 70)" : "lightgreen";
+
+        let payStatusText = `
+          <span style="color:lightgreen; font-weight:bold; margin-left:10px;">واصل (${paidVal})</span> 
+          <span style="color:${remainColor}; font-weight:bold;">باقي (${remainVal})</span>
+        `;
         
         card.innerHTML = `
           <div class="member-main-info">
@@ -430,7 +537,7 @@
             </div>
             <div class="member-row-item">
               <span style="font-size: 15px; color: #aaa;">فترة الاشتراك:</span>
-              <span style="font-size: 10px; color: #eee;">من ${member.joinDate} إلى ${member.expiryDate}</span>
+              <span style="font-size: 20px; color: #eee;">من ${member.joinDate} <br>إلى ${member.expiryDate}</span>
             </div>
             <div class="member-row-item">
               <span style="font-size: 15px; color: #aaa;">حالة الدفع :</span>
@@ -438,7 +545,7 @@
             </div>
             <div class="member-row-item" style="border-bottom: none; padding-top: 10px;">
               <span style="font-size: 15px; color: #aaa;">حالة الاشتراك الفعلي:</span>
-              <strong style="color:${statusColor}; font-size: 18px;">${statusText}</strong>
+              <strong style="color:${statusColor}; font-size: 15px;">${statusText}</strong>
             </div>
           </div>
         `;
@@ -463,17 +570,22 @@
           editBtn.innerText = "تعديل المعلومات";
           editBtn.addEventListener("click", function() {
             let newName = prompt("تعديل الاسم:", member.name);
-            let newDays = prompt("تعديل مدة الاشتراك بالأيام (مثال: 30):", "30");
-            let payPrompt = prompt("هل تم الدفع؟ (اكتب 'نعم' لتأكيد الدفع أو 'لا'):", member.isPaid ? "نعم" : "لا");
+            let newPaid = prompt("تعديل المبلغ الواصل:", member.amountPaid || "0");
+            let newRemain = prompt("تعديل المبلغ الباقي:", member.amountRemaining || "0");
             
-            if(newName && newDays) {
-              member.name = newName;
-              member.expiryDate = calculateExpiryDate(member.joinDate, newDays);
-              if (payPrompt === "نعم") member.isPaid = true;
-              if (payPrompt === "لا") member.isPaid = false;
+            if(newName !== null && newPaid !== null && newRemain !== null) {
+              if(newName.trim() !== "") {
+                member.name = newName.trim();
+              }
+              member.amountPaid = newPaid.trim() || "0";
+              member.amountRemaining = newRemain.trim() || "0";
+
+              // لو مفيش باقي، علم عليه كـ مدفوع أوتوماتيك للتوافق القديم
+              member.isPaid = (parseFloat(member.amountRemaining) || 0) === 0;
 
               window.syncWithFirebase(window.gymMembers);
               window.renderMembers();
+              alert("تم تعديل البيانات والفلوس بنجاح! 💰");
             }
           });
 
@@ -492,7 +604,14 @@
               let startDateForRenew = oldExpiry > baseDate ? member.expiryDate : baseDate.toISOString().split('T')[0];
               
               member.expiryDate = calculateExpiryDate(startDateForRenew, extraDays);
-              member.isPaid = true; 
+              
+              // عند التجديد نسأله بردو على الفلوس عشان السيستم يفضل دقيق
+              let renewPaid = prompt("المبلغ الواصل للتجديد الجديد:", "0");
+              let renewRemain = prompt("المبلغ الباقي للتجديد الجديد:", "0");
+              
+              member.amountPaid = renewPaid || "0";
+              member.amountRemaining = renewRemain || "0";
+              member.isPaid = (parseFloat(member.amountRemaining) || 0) === 0;
               
               window.syncWithFirebase(window.gymMembers);
               alert(`تم تجديد الاشتراك بنجاح وزيادة ${extraDays} يوم! 🎉`);
@@ -528,6 +647,8 @@
         }
         container.append(card);
       });
+      let myPAD = document.getElementById("pAd");
+      myPAD.innerHTML = filteredList.length
     };
 
     smartSearchInp.addEventListener("input", window.renderMembers);
@@ -578,6 +699,7 @@
         ispee = true;
         myBlock.classList.remove("block");
 
+        // هنا التعديل الشغل كله: شيلنا التشيك بوكس وضفنا حقول واصل وباقي مقسمة بعرض الشاشة
         myDivPee.innerHTML = `
           <div class="form-group">
             <label for="inpAddPee"><= اسم المشترك</label>
@@ -591,10 +713,12 @@
             <label for="inpAddfenData"><= مدة الاشتراك</label>
             <input class="inpAddfenData" id="inpAddfenData" type="number" value="30">
           </div>
-          <div class="checkbox-group">
-            <input type="checkbox" id="payCheck">
-            <label for="payCheck" style="color:black;">هل تم الدفع؟ 💰</label>
+          
+          <div class="money-inputs-group">
+            <input type="number" id="amountPaidInp" placeholder="واصل">
+            <input type="number" id="amountRemainingInp" placeholder="باقي">
           </div>
+          
           <button class="addBut" id="submitMemberBtn" type="button">انشاء اشتراك!</button>
         `;
 
@@ -604,7 +728,8 @@
           let nameInp = document.getElementById("inpAddPee");
           let dateInp = document.getElementById("inpAddData");
           let daysInp = document.getElementById("inpAddfenData");
-          let payInp = document.getElementById("payCheck");
+          let paidInp = document.getElementById("amountPaidInp");
+          let remainingInp = document.getElementById("amountRemainingInp");
 
           if(nameInp.value.trim() === "") {
             alert("يا فنان أدخل اسم المشترك أولاً!");
@@ -612,13 +737,16 @@
           }
 
           let expiry = calculateExpiryDate(dateInp.value, daysInp.value || 30);
+          let remainValue = remainingInp.value.trim() || "0";
 
           let newMember = {
             id: Date.now(),
             name: nameInp.value.trim(),
             joinDate: dateInp.value,
             expiryDate: expiry,
-            isPaid: payInp.checked,
+            amountPaid: paidInp.value.trim() || "0",
+            amountRemaining: remainValue,
+            isPaid: (parseFloat(remainValue) || 0) === 0, // لو الباقي صفر يبقي دافع بالكامل تلقائي
             isPaused: false
           };
 
@@ -627,8 +755,9 @@
           window.renderMembers();
 
           nameInp.value = "";
-          payInp.checked = false;
-          alert("تم إنشاء الاشتراك وحفظه بنجاح! 🎉");
+          paidInp.value = "";
+          remainingInp.value = "";
+          alert("تم إنشاء الاشتراك وحفظ المبالغ بنجاح! 🎉");
         });
       } else {
         myBlock.classList.toggle("block");
@@ -639,6 +768,7 @@
       showControlsMode = !showControlsMode; 
       window.renderMembers(); 
     });
+    
   </script>
   </body>
 </html>
