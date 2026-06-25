@@ -12,12 +12,11 @@
 
     <style>
     :root {
-      --mainColorBorder: rgb(250 221 10);
+      --mainColorBorder: rgb(250 220 10);
     }
     body {
       background-color: black;
       font-family: "Cairo Play";
-      
     }
     .imge {
       position: fixed;
@@ -140,12 +139,8 @@
       margin-left: -40px;
       margin-bottom: 15px;
     }
-    .inpAddPee {
-      font-size: 15px;
-    }
-    .inpAddPee::placeholder {
-      font-size: 20px;
-    }
+    .inpAddPee { font-size: 15px; }
+    .inpAddPee::placeholder { font-size: 20px; }
     #peeInp-div {
       display: flex;
       flex-direction: column;
@@ -156,9 +151,7 @@
       margin: 20px auto;
       color: white ;
     }
-    #peeInp-div label {
-      color: white;
-    }
+    #peeInp-div label { color: white; }
     .form-group {
       position: relative;
       margin-bottom: 15px;
@@ -218,11 +211,8 @@
       padding: 6px 0;
       border-bottom: 1px dashed rgb(255 255 255 / 0.15);
     }
-    .member-row-item:last-child {
-      border-bottom: none;
-    }
+    .member-row-item:last-child { border-bottom: none; }
     
-    /* إنبوتس تعديل الكارت المباشر */
     .card-edit-input {
       background: #222;
       border: 1px solid var(--mainColorBorder);
@@ -255,7 +245,7 @@
       font-size: 14px;
     }
     .btn-delete { background-color: rgb(200 0 70); }
-    .btn-edit { background-color: rgb(34, 139, 34); } /* تعديل لون زرار تعديل البيانات لأخضر غامق سيكة */
+    .btn-edit { background-color: rgb(34, 139, 34); }
     .btn-renew { background-color: #008cba; }
     .btn-pause { background-color: #6c757d; }
     .btn-resume { background-color: #28a745; }
@@ -313,7 +303,6 @@
       box-shadow: 0 0 5px var(--mainColorBorder);
     }
     
-    /* ستايل زر التحكم الرئيسي العلوي وزر الكروت المنور */
     .oneS {
       width: 50px;
       height: 30px;
@@ -327,7 +316,7 @@
       padding: 4px;
       transition: all .2s;
       cursor: pointer;
-      justify-content: flex-end;
+      display: none;
     }
     .twoS {
       width: 23px;
@@ -337,8 +326,9 @@
       border-radius: 50%;
       transition: all .2s;
     }
-    
-    /* زر النور الأزرق الخاص بكل كارت */
+    #controlBtn {
+      display: none;
+    }
     .card-toggle-span {
       width: 44px;
       height: 24px;
@@ -359,7 +349,6 @@
       transition: all 0.2s;
     }
 
-    /* ستايل شاشة الدخول المدمجة */
     #loginScreen {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -450,7 +439,6 @@
   </head>
   <body>
 
-    <!-- شاشة قفل الدخول المدمجة -->
     <div id="loginScreen">
       <img src="img/img7.jpg" alt="" />
       <div id="noPas"></div>
@@ -467,7 +455,6 @@
       </div>
     </div>
 
-    <!-- المحتوى الرئيسي للوحة التحكم (مخفي افتراضياً لحين التأكيد) -->
     <div id="mainDashboard" style="display: none;">
       <img class="imge" src="img/img11.png" alt="" />
       <header>
@@ -516,7 +503,6 @@
       appId: "1:490575758789:web:aac8e332f6235aabbb77ac",
       measurementId: "G-T3REQL414D"
     };
-    
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
@@ -548,9 +534,7 @@
         if (docSnap.exists() && docSnap.data().pas) {
           window.cloudPassword = docSnap.data().pas;
         }
-      } catch (e) {
-        console.log("نعمد على باسورد محلي أو افتراضي.");
-      }
+      } catch (e) { console.log("اعتماد الباسورد المحلي."); }
 
       try {
         const membersSnap = await getDoc(doc(db, "gym_data", "members_config"));
@@ -559,21 +543,17 @@
           window.gymMembers = membersSnap.data().data;
           window.renderMembers();
         }
-      } catch (e) {
-        console.log("نعمد على البيانات المحلية حالياً.");
-      }
+      } catch (e) { console.log("اعتماد البيانات المحلية."); }
     }
     loadCloudData();
   </script>
 
   <script>
-    // نظام الحماية والأمان بالاعتماد على sessionStorage لضمان طلب الرمز عند غلق التاب
     if (sessionStorage.getItem("isLoggedIn") === "true") {
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("mainDashboard").style.display = "block";
     }
 
-    // إدارة حركة إنبوتس الرمز السري الـ 6 ارقام
     let myInputs = document.querySelectorAll(".code-inp");
     let myBut = document.getElementById("submitPasBtn");
     let myNoPas = document.querySelector("#noPas");
@@ -581,17 +561,11 @@
     myInputs.forEach(function(ele, i, arr){
       ele.addEventListener("input", function(){
         let evl = ele.value.split("");
-        if(evl.length >= 2){
-          ele.value = evl[evl.length - 1];
-        }
-        if (ele.value !== "" && i < arr.length - 1) {
-          arr[i + 1].focus();
-        }
+        if(evl.length >= 2){ ele.value = evl[evl.length - 1]; }
+        if (ele.value !== "" && i < arr.length - 1) { arr[i + 1].focus(); }
       });
       ele.addEventListener("keydown", function(e) {
-        if (e.key === "Backspace" && ele.value === "" && i > 0) {
-          arr[i - 1].focus();
-        }
+        if (e.key === "Backspace" && ele.value === "" && i > 0) { arr[i - 1].focus(); }
       });
     });
 
@@ -616,10 +590,7 @@
         }else {
           myNoPas.innerHTML = "رمز امان صحيح";
           myNoPas.className = "isttrree";
-          
-          // تصفير الخانات فوراً لزيادة الأمان
           myInputs.forEach(inp => inp.value = "");
-          
           setTimeout(function(){
             sessionStorage.setItem("isLoggedIn", "true");
             document.getElementById("loginScreen").style.display = "none";
@@ -632,7 +603,6 @@
       }
     });
 
-    // سكريبت لوحة البيانات الرئيسية والتحكم
     let op = false;
     let isOpen = document.getElementById("controlBtn");
     let mySpanO = document.querySelector(".oneS");
@@ -659,7 +629,7 @@
     let currentFilter = "all"; 
     
     window.gymMembers = JSON.parse(localStorage.getItem("gym_members")) || [];
-    window.editingMembers = {}; // لتتبع الكروت المفتوح فيها زر التعديل المباشر الأزرق
+    window.editingMembers = {}; 
 
     let myBlock = document.getElementById("ppee");
     let myButPas = document.getElementById("showPas");
@@ -687,13 +657,11 @@
     window.renderMembers = function() {
       let container = document.getElementById("membersContainer");
       container.innerHTML = "";
-      
       let searchValue = smartSearchInp.value.trim().toLowerCase();
 
       let filteredList = window.gymMembers.filter(function(member) {
         let daysLeft = getDaysLeft(member.expiryDate);
         let isUnpaid = (parseFloat(member.amountRemaining) || 0) > 0;
-        
         if (currentFilter === "expired") return daysLeft <= 0 && !member.isPaused;
         if (currentFilter === "warning") return daysLeft > 0 && daysLeft <= 5 && !member.isPaused;
         if (currentFilter === "unpaid") return isUnpaid;
@@ -713,8 +681,7 @@
       }
       
       if(filteredList.length === 0) {
-        let myPAD = document.getElementById("pAd");
-        myPAD.innerHTML = filteredList.length;
+        document.getElementById("pAd").innerHTML = filteredList.length;
         container.innerHTML = `<p style="text-align:center; color:black; font-size:18px; margin-top:20px;">مفيش نتايج مطابقة للعرض حالياً</p>`;
         return;
       }
@@ -745,12 +712,9 @@
         let paidVal = member.amountPaid || "0";
         let remainVal = member.amountRemaining || "0";
         let remainColor = parseFloat(remainVal) > 0 ? "rgb(255 70 70)" : "lightgreen";
-
-        // فحص حالة هل زرار التعديل الأزرق شغال للكارت ده ولا لأ
         let isCardEditing = window.editingMembers[member.id] || false;
 
         if (isCardEditing) {
-          // عرض الكارت على هيئة Inputs للتعديل الفوري والدقيق برياحته
           card.innerHTML = `
             <div class="member-main-info">
               <div style="position: absolute; left: 15px; top: 15px; display: flex; align-items: center; gap: 8px;">
@@ -760,32 +724,27 @@
                 </span>
               </div>
               <div class="member-row-item" style="margin-top: 20px;">
-                <span style="font-size: 15px; color: #aaa;">اسم المشترك:</span>
+                <span>اسم المشترك:</span>
                 <input type="text" class="card-edit-input" id="edit-name-${member.id}" value="${member.name}">
               </div>
               <div class="member-row-item">
-                <span style="font-size: 15px; color: #aaa;">تاريخ الاشتراك:</span>
+                <span>تاريخ الاشتراك:</span>
                 <input type="date" class="card-edit-input" id="edit-join-${member.id}" value="${member.joinDate}">
               </div>
               <div class="member-row-item">
-                <span style="font-size: 15px; color: #aaa;">تاريخ الانتهاء:</span>
+                <span>تاريخ الانتهاء:</span>
                 <input type="date" class="card-edit-input" id="edit-expiry-${member.id}" value="${member.expiryDate}">
               </div>
               <div class="member-row-item">
-                <span style="font-size: 15px; color: #aaa;">المبلغ الواصل:</span>
+                <span>المبلغ الواصل:</span>
                 <input type="number" class="card-edit-input" style="width: 28%;" id="edit-paid-${member.id}" value="${paidVal}">
-                <span style="font-size: 15px; color: #aaa;">الباقي:</span>
+                <span>الباقي:</span>
                 <input type="number" class="card-edit-input" style="width: 28%;" id="edit-remain-${member.id}" value="${remainVal}">
               </div>
             </div>
           `;
         } else {
-          // العرض العادي الثابت للكارت
-          let payStatusText = `
-            <span style="color:lightgreen; font-weight:bold; margin-left:10px;">واصل (${paidVal})</span> 
-            <span style="color:${remainColor}; font-weight:bold;">باقي (${remainVal})</span>
-          `;
-          
+          let payStatusText = `<span style="color:lightgreen; font-weight:bold; margin-left:10px;">واصل (${paidVal})</span> <span style="color:${remainColor}; font-weight:bold;">باقي (${remainVal})</span>`;
           card.innerHTML = `
             <div class="member-main-info">
               <div style="position: absolute; left: 15px; top: 15px; display: flex; align-items: center; gap: 8px;">
@@ -795,41 +754,37 @@
                 </span>
               </div>
               <div class="member-row-item" style="margin-top: 15px;">
-                <span style="font-size: 16px; color: #aaa;">اسم المشترك:</span>
-                <strong style="font-size: 15px; color: #fff;">${member.name}</strong>
+                <span>اسم المشترك:</span>
+                <strong>${member.name}</strong>
               </div>
               <div class="member-row-item">
-                <span style="font-size: 15px; color: #aaa;">فترة الاشتراك:</span>
+                <span>فترة الاشتراك:</span>
                 <span style="font-size: 20px; color: #eee;">من ${member.joinDate} <br>إلى ${member.expiryDate}</span>
               </div>
               <div class="member-row-item">
-                <span style="font-size: 15px; color: #aaa;">حالة الدفع :</span>
+                <span>حالة الدفع :</span>
                 <span>${payStatusText}</span>
               </div>
               <div class="member-row-item" style="border-bottom: none; padding-top: 10px;">
-                <span style="font-size: 15px; color: #aaa;">حالة الاشتراك الفعلي:</span>
-                <strong style="color:${statusColor}; font-size: 15px;">${statusText}</strong>
+                <span>حالة الاشتراك الفعلي:</span>
+                <strong style="color:${statusColor};">${statusText}</strong>
               </div>
             </div>
           `;
         }
 
-        // تشغيل حدث زر النور الأزرق داخل الكارت
         card.querySelector(".card-toggle-span").addEventListener("click", function() {
           if (!isCardEditing) {
             window.editingMembers[member.id] = true;
             window.renderMembers();
           } else {
-            // عند إطفاء الزرار الأزرق يتم حفظ المدخلات فوراً
             let updatedName = document.getElementById(`edit-name-${member.id}`).value.trim();
             let updatedJoin = document.getElementById(`edit-join-${member.id}`).value;
             let updatedExpiry = document.getElementById(`edit-expiry-${member.id}`).value;
             let updatedPaid = document.getElementById(`edit-paid-${member.id}`).value.trim();
             let updatedRemain = document.getElementById(`edit-remain-${member.id}`).value.trim();
 
-            if(updatedName !== "") {
-              member.name = updatedName;
-            }
+            if(updatedName !== "") { member.name = updatedName; }
             member.joinDate = updatedJoin;
             member.expiryDate = updatedExpiry;
             member.amountPaid = updatedPaid || "0";
@@ -842,10 +797,14 @@
           }
         });
 
-        // شريط الأزرار الإضافية للتحكم (حذف / تعديل البيانات / تجديد / إيقاف)
-        if (showControlsMode) {
+        // تعديل حاوية أزرار التحكم عشان تفتح إجباري لو وضع الإنبوتس (isCardEditing) شغال للكارت ده
+        if (showControlsMode || isCardEditing) {
           let actionsDiv = document.createElement("div");
           actionsDiv.className = "control-actions-div";
+          // لو وضع الإنبوتس شغال للكارت، بنديله كلاس الظهور فوراً ليتخطى حكم الزرار الكبير (مثل الإنلاين ستايل)
+          if (isCardEditing) {
+            actionsDiv.classList.add("show-actions");
+          }
 
           let deleteBtn = document.createElement("button");
           deleteBtn.className = "btn-control btn-delete";
@@ -860,20 +819,16 @@
 
           let editBtn = document.createElement("button");
           editBtn.className = "btn-control btn-edit";
-          editBtn.innerText = "تعديل البيانات"; // تم تحويل لون الخلفية لـ أخضر غامق بالـ CSS فوق
+          editBtn.innerText = "تعديل البيانات";
           editBtn.addEventListener("click", function() {
             let newName = prompt("تعديل الاسم:", member.name);
             let newPaid = prompt("تعديل المبلغ الواصل:", member.amountPaid || "0");
             let newRemain = prompt("تعديل المبلغ الباقي:", member.amountRemaining || "0");
-            
             if(newName !== null && newPaid !== null && newRemain !== null) {
-              if(newName.trim() !== "") {
-                member.name = newName.trim();
-              }
+              if(newName.trim() !== "") { member.name = newName.trim(); }
               member.amountPaid = newPaid.trim() || "0";
               member.amountRemaining = newRemain.trim() || "0";
               member.isPaid = (parseFloat(member.amountRemaining) || 0) === 0;
-
               window.syncWithFirebase(window.gymMembers);
               window.renderMembers();
               alert("تم تعديل البيانات والفلوس بنجاح! 💰");
@@ -884,25 +839,18 @@
           renewBtn.className = "btn-control btn-renew";
           renewBtn.innerText = "تجديد الاشتراك 🔄";
           renewBtn.addEventListener("click", function() {
-            if (member.isPaused) {
-              alert("يا كابتن فعل الاشتراك الأول قبل ما تجدده!");
-              return;
-            }
+            if (member.isPaused) { alert("فعل الاشتراك الأول قبل ما تجدده!"); return; }
             let extraDays = prompt(`كم عدد الأيام الجديدة لتجديد اشتراك الكابتن (${member.name})؟`, "30");
             if(extraDays && !isNaN(extraDays)) {
               let baseDate = new Date(); 
               let oldExpiry = new Date(member.expiryDate);
               let startDateForRenew = oldExpiry > baseDate ? member.expiryDate : baseDate.toISOString().split('T')[0];
-              
               member.expiryDate = calculateExpiryDate(startDateForRenew, extraDays);
-              
               let renewPaid = prompt("المبلغ الواصل للتجديد الجديد:", "0");
               let renewRemain = prompt("المبلغ الباقي للتجديد الجديد:", "0");
-              
               member.amountPaid = renewPaid || "0";
               member.amountRemaining = renewRemain || "0";
               member.isPaid = (parseFloat(member.amountRemaining) || 0) === 0;
-              
               window.syncWithFirebase(window.gymMembers);
               alert(`تم تجديد الاشتراك بنجاح وزيادة ${extraDays} يوم! 🎉`);
               window.renderMembers();
@@ -912,14 +860,10 @@
           let pauseToggleBtn = document.createElement("button");
           pauseToggleBtn.className = member.isPaused ? "btn-control btn-resume" : "btn-control btn-pause";
           pauseToggleBtn.innerText = member.isPaused ? "تفعيل الاشتراك ▶️" : "إيقاف مؤقت ⏸️";
-
           pauseToggleBtn.addEventListener("click", function() {
             if (!member.isPaused) {
               let daysLeft = getDaysLeft(member.expiryDate);
-              if (daysLeft <= 0) {
-                alert("الاشتراك منتهي بالفعل يا فنان!");
-                return;
-              }
+              if (daysLeft <= 0) { alert("الاشتراك منتهي بالفعل يا فنان!"); return; }
               member.isPaused = true;
               member.remainingDaysAtPause = daysLeft;
             } else {
@@ -937,8 +881,7 @@
         }
         container.append(card);
       });
-      let myPAD = document.getElementById("pAd");
-      myPAD.innerHTML = filteredList.length;
+      document.getElementById("pAd").innerHTML = filteredList.length;
     };
 
     smartSearchInp.addEventListener("input", window.renderMembers);
@@ -957,38 +900,29 @@
         ispas = true;
         let myInpPas = document.createElement("input");
         let myButPasSubmit = document.createElement("button");
-        
         myInpPas.className = "inpPas";
         myButPasSubmit.className = "butPas";
         myButPasSubmit.innerHTML = "!تغيير";
         myInpPas.setAttribute("type","number");
         myInpPas.placeholder = "اكتب رمز الامان الجديد";
-        
         myDivPas.append(myInpPas, myButPasSubmit);
-        
         myInpPas.addEventListener("input", function(){
           if(myInpPas.value.length > 6) myInpPas.value = myInpPas.value.slice(0 , 6);
         });
-
         myButPasSubmit.addEventListener("click", function(){
           if(myInpPas.value.length === 6){
             window.syncPasswordWithFirebase(myInpPas.value);
             alert("تم تغيير رمز الامان بنجاح ورفعه أونلاين! 🔐");
             myInpPas.value = "";
-          }else {
-            alert("⚠️اكتب 6 ارقام ‼️");
-          }
+          }else { alert("⚠️اكتب 6 ارقام ‼️"); }
         });
-      }else {
-        myDivPas.classList.toggle("block");
-      }
+      }else { myDivPas.classList.toggle("block"); }
     });
     
     myAddPee.addEventListener("click", function(){
       if(ispee === false){
         ispee = true;
         myBlock.classList.remove("block");
-
         myDivPee.innerHTML = `
           <div class="form-group">
             <label for="inpAddPee"><= اسم المشترك</label>
@@ -1002,17 +936,13 @@
             <label for="inpAddfenData"><= مدة الاشتراك</label>
             <input class="inpAddfenData" id="inpAddfenData" type="number" value="30">
           </div>
-          
           <div class="money-inputs-group">
             <input type="number" id="amountPaidInp" placeholder="واصل">
             <input type="number" id="amountRemainingInp" placeholder="باقي">
           </div>
-          
           <button class="addBut" id="submitMemberBtn" type="button">انشاء اشتراك!</button>
         `;
-
         document.getElementById("inpAddData").value = new Date().toISOString().split('T')[0];
-
         document.getElementById("submitMemberBtn").addEventListener("click", function() {
           let nameInp = document.getElementById("inpAddPee");
           let dateInp = document.getElementById("inpAddData");
@@ -1020,11 +950,7 @@
           let paidInp = document.getElementById("amountPaidInp");
           let remainingInp = document.getElementById("amountRemainingInp");
 
-          if(nameInp.value.trim() === "") {
-            alert("يا فنان أدخل اسم المشترك أولاً!");
-            return;
-          }
-
+          if(nameInp.value.trim() === "") { alert("يا فنان أدخل اسم المشترك أولاً!"); return; }
           let expiry = calculateExpiryDate(dateInp.value, daysInp.value || 30);
           let remainValue = remainingInp.value.trim() || "0";
 
@@ -1042,58 +968,80 @@
           window.gymMembers.push(newMember);
           window.syncWithFirebase(window.gymMembers);
           window.renderMembers();
-
-          nameInp.value = "";
-          paidInp.value = "";
-          remainingInp.value = "";
+          nameInp.value = ""; paidInp.value = ""; remainingInp.value = "";
           alert("تم إنشاء الاشتراك وحفظ المبالغ بنجاح! 🎉");
         });
-      } else {
-        myBlock.classList.toggle("block");
-      }
+      } else { myBlock.classList.toggle("block"); }
     });
 
     controlBtn.addEventListener("click", function() {
       showControlsMode = !showControlsMode; 
       window.renderMembers(); 
     });
-    // دالة التحكم المرن في خطوط الكروت بناءً على حجم الشاشة
-function responsiveCardFonts() {
-  let screenWidth = window.innerWidth;
-  // النسبة المئوية للتصغير بناءً على المقاس المرجعي 384px
-  let scaleFactor = screenWidth < 384 ? (screenWidth / 384) : 1;
 
-  // 1. العناوين الجانبية واسم المشترك وحالة الاشتراك
-  let smallTexts = document.querySelectorAll(".member-row-item span, .member-main-info strong, .card-edit-input");
-  smallTexts.forEach(el => {
-    // لو العنصر هو فترة الاشتراك الكبيرة متطبقش عليه المقاس الصغير
-    if (el.getAttribute("style") && el.getAttribute("style").includes("font-size: 20px")) return;
-    
-    let baseSize = 15; // الحجم الأصلي الافتراضي
-    el.style.fontSize = (baseSize * scaleFactor) + "px";
-  });
+    function responsiveCardFonts() {
+      let screenWidth = window.innerWidth;
+      let scaleFactor = screenWidth < 384 ? (screenWidth / 384) : 1;
+      let smallTexts = document.querySelectorAll(".member-row-item span, .member-main-info strong, .card-edit-input");
+      smallTexts.forEach(el => {
+        if (el.getAttribute("style") && el.getAttribute("style").includes("font-size: 20px")) return;
+        el.style.fontSize = (15 * scaleFactor) + "px";
+      });
+      let bigTexts = document.querySelectorAll('.member-row-item span[style*="font-size: 20px"]');
+      bigTexts.forEach(el => { el.style.fontSize = (20 * scaleFactor) + "px"; });
+    }
 
-  // 2. خط فترات الاشتراك الكبيرة (من ... إلى ...)
-  let bigTexts = document.querySelectorAll('.member-row-item span[style*="font-size: 20px"]');
-  bigTexts.forEach(el => {
-    let baseSize = 20; // الحجم الأصلي الكيبر
-    el.style.fontSize = (baseSize * scaleFactor) + "px";
-  });
-}
+    function applySmoothCardAnimations() {
+      if (!document.getElementById("smooth-card-styles")) {
+        let style = document.createElement("style");
+        style.id = "smooth-card-styles";
+        style.innerHTML = `
+          .member-card { transition: all 0.4s ease-in-out !important; }
+          .control-actions-div {
+            max-height: 0; opacity: 0; transform: translateY(-10px); overflow: hidden;
+            transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in-out, transform 0.4s ease-in-out !important;
+            margin-top: 0 !important; padding: 0 !important;
+          }
+          .control-actions-div.show-actions {
+            max-height: 200px; opacity: 1; transform: translateY(0);
+            margin-top: 15px !important; padding: 12px !important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
 
-// تشغيل الدالة فوراً عند تحميل الصفحة
-responsiveCardFonts();
+      function toggleActionsClasses() {
+        let cardElements = document.querySelectorAll(".member-card");
+        cardElements.forEach(card => {
+          let actionsDiv = card.querySelector(".control-actions-div");
+          if (!actionsDiv) return;
+          
+          // ابحث في الـ editingMembers لنفس كارت العضو لمعرفة هل وضع التعديل الخاص مفتوح له
+          let toggleSpan = card.querySelector(".card-toggle-span");
+          let mId = toggleSpan ? toggleSpan.getAttribute("data-id") : null;
+          let isCardEditing = mId ? window.editingMembers[mId] : false;
 
-// تشغيل الدالة أوتوماتيك كل ما الشاشة حجمها يتغير (عند تدوير الموبايل مثلاً)
-window.addEventListener("resize", responsiveCardFonts);
+          // إذا كان وضع التحكم الرئيسي شغال، أو وضع تعديل الإنبوتس شغال إجباري للكارت الحالي
+          if (window.showControlsMode || isCardEditing) {
+            setTimeout(() => { actionsDiv.classList.add("show-actions"); }, 10);
+          } else {
+            actionsDiv.classList.remove("show-actions");
+          }
+        });
+      }
 
-// تعديل بسيط على الـ renderMembers عشان الدالة تشتغل فوراً أول ما تكارنيهم
-let originalRender = window.renderMembers;
-window.renderMembers = function() {
-  originalRender();
-  responsiveCardFonts();
-};
+      let originalRender = window.renderMembers;
+      window.renderMembers = function() {
+        originalRender();
+        toggleActionsClasses();
+        responsiveCardFonts();
+      };
+      toggleActionsClasses();
+    }
 
+    applySmoothCardAnimations();
+    responsiveCardFonts();
+    window.addEventListener("resize", responsiveCardFonts);
   </script>
   </body>
 </html>
