@@ -48,7 +48,7 @@
       padding: 25px;
       padding-top: 50px;
       border-radius: 8px;
-      background-color: rgb(250 250 250);
+      background-color: rgb(110 60 0);
       position: relative;
     }
     .counterenr-div-pepol > h2 {
@@ -198,6 +198,7 @@
       direction: rtl;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
       position: relative;
+      cursor: default;
     }
     .member-main-info {
       display: flex;
@@ -303,6 +304,74 @@
       box-shadow: 0 0 5px var(--mainColorBorder);
     }
     
+    /* زرار التخصيص الرئيسي المضيء */
+    .filter-tab.color-customizer-btn {
+      background: #2c3e50;
+      border-color: #34495e;
+    }
+    .filter-tab.color-customizer-btn.active-color-mode {
+      background: #2980b9 !important;
+      border-color: #3498db !important;
+      box-shadow: 0 0 15px #3498db !important;
+      animation: pulseGlow 1.5s infinite alternate;
+    }
+    @keyframes pulseGlow {
+      from { box-shadow: 0 0 4px #3498db; }
+      to { box-shadow: 0 0 18px #3498db; }
+    }
+
+    /* كلاس التنبيه البصري للعناصر القابلة للتعديل عند تفعيل الوضع الأزرق */
+    .customizer-highlight-mode * {
+      cursor: cell !important;
+    }
+
+    /* ستايل نافذة خيارات الألوان المنبثقة */
+    .color-picker-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.85);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .color-picker-content {
+      background: #222;
+      border: 3px solid #3498db;
+      border-radius: 12px;
+      padding: 25px;
+      width: 90%;
+      max-width: 400px;
+      color: white;
+      direction: rtl;
+      box-shadow: 0px 0px 15px #3498db;
+    }
+    .color-picker-content h3 {
+      margin-top: 0;
+      text-align: center;
+      color: #3498db;
+      border-bottom: 1px dashed #444;
+      padding-bottom: 10px;
+    }
+    .modal-option-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 15px 0;
+      padding: 8px 0;
+      border-bottom: 1px dashed #333;
+    }
+    .modal-option-row:last-of-type { border-bottom: none; }
+    .modal-option-row span { font-weight: bold; font-size: 16px; }
+    .color-input-element {
+      width: 50px; height: 35px; border: none; border-radius: 4px; cursor: pointer; background: transparent;
+    }
+    .modal-btn-action {
+      width: 100%; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; border: none; margin-top: 8px; font-size: 14px;
+    }
+    .btn-use-default { background: #e67e22; color: white; }
+    .btn-close-modal { background: #d35400; color: white; margin-top: 15px; }
+
     .oneS {
       width: 50px;
       height: 30px;
@@ -316,7 +385,6 @@
       padding: 4px;
       transition: all .2s;
       cursor: pointer;
-      display: none;
     }
     .twoS {
       width: 23px;
@@ -326,9 +394,7 @@
       border-radius: 50%;
       transition: all .2s;
     }
-    #controlBtn {
-      display: none;
-    }
+    
     .card-toggle-span {
       width: 44px;
       height: 24px;
@@ -437,7 +503,7 @@
     }
     </style>
   </head>
-  <body>
+  <body id="site-body">
 
     <div id="loginScreen">
       <img src="img/img7.jpg" alt="" />
@@ -457,7 +523,7 @@
 
     <div id="mainDashboard" style="display: none;">
       <img class="imge" src="img/img11.png" alt="" />
-      <header>
+      <header id="site-header">
         <img src="img/img9.jpg" class="img1" />
         <img class="img2" src="img/img6.jpg" alt="" />
         <button id="addPee" class="butAd" type="button">اضافة مشتركين</button>
@@ -471,8 +537,8 @@
         <div id="peeInp-div"></div>
       </div>
       
-      <div class="counterenr-div-pepol">
-        <h2>لوحة البيانات</h2>
+      <div class="counterenr-div-pepol" id="dashboard-panel">
+        <h2 id="panel-title-text">لوحة البيانات</h2>
         
         <div class="search-wrapper">
           <input type="text" id="smartSearchInp" class="smart-search-input" placeholder="🔍 ابحث عن اسم المشترك ...">
@@ -483,10 +549,44 @@
           <button class="filter-tab" data-filter="warning">اقل من 5 ايام ⚠️</button>
           <button class="filter-tab" data-filter="unpaid">غير مدفوع 💰</button>
           <button class="filter-tab" data-filter="paused">الموقوفين مؤقتاً ⏸️</button>
+          <button class="filter-tab color-customizer-btn" id="customizerToggleBtn">🎨 تخصيص الألوان</button>
           <p id="pAd"></p>
         </div>
 
         <div id="membersContainer"></div>
+      </div>
+    </div>
+
+    <div id="customizerModal" class="color-picker-modal" style="display: none;">
+      <div class="color-picker-content">
+        <h3 id="customizerTargetName">تعديل مظهر العنصر</h3>
+        
+        <div class="modal-option-row">
+          <span>١- تغيير لون الخلفية</span>
+          <input type="color" id="pickerBg" class="color-input-element">
+        </div>
+        
+        <div class="modal-option-row">
+          <span>٢- تغيير لون البوردر</span>
+          <input type="color" id="pickerBorder" class="color-input-element">
+        </div>
+        
+        <div class="modal-option-row">
+          <span>٣- تغيير لون الخط</span>
+          <input type="color" id="pickerColor" class="color-input-element">
+        </div>
+        
+        <div class="modal-option-row" style="flex-direction: column; align-items: stretch; gap: 5px;">
+          <span>٤- إعادة العنصر للوضع الافتراضي</span>
+          <button type="button" class="modal-btn-action btn-use-default" id="btnApplyDefaultToCard">تطبيق الألوان الافتراضية</button>
+        </div>
+        
+        <div class="modal-option-row" style="flex-direction: column; align-items: stretch; gap: 5px; border-top: 1px solid #444; padding-top: 10px;">
+          <span>٥- تغيير لون الموقع الأساسي بالكامل</span>
+          <input type="color" id="pickerMainTheme" class="color-input-element" style="width:100%; height:40px;">
+        </div>
+        
+        <button type="button" class="modal-btn-action btn-close-modal" id="btnCloseCustomizerModal">إغلاق وحفظ سحابياً 💾</button>
       </div>
     </div>
 
@@ -514,7 +614,7 @@
       try {
         await setDoc(doc(db, "gym_data", "members_config"), { data: membersList });
       } catch (e) {
-        console.error("خطأ في المزامنة السحابية:", e);
+        console.error("خطأ في المزامنة السحابية للأعضاء:", e);
       }
     };
 
@@ -528,6 +628,29 @@
       }
     };
 
+    // دالة المزامنة السحابية لحفظ ألوان أي عنصر في قاعدة البيانات أونلاين
+    window.syncThemeColors = async function(customThemes) {
+      localStorage.setItem("gym_custom_themes", JSON.stringify(customThemes));
+      try {
+        await setDoc(doc(db, "gym_data", "theme_config"), { themes: customThemes });
+      } catch (e) {
+        console.error("خطأ في حفظ الألوان على قاعدة البيانات سحابياً:", e);
+      }
+    };
+
+    // دالة لتطبيق الستايل على أي عنصر ثابت بالصفحة بناءً على الهوية المحفوظة
+    window.applySavedElementStyle = function(elementId, styleObj) {
+      let el = document.getElementById(elementId);
+      if (!el) return;
+      if (styleObj.bg) el.style.backgroundColor = styleObj.bg;
+      if (styleObj.border) {
+        el.style.borderColor = styleObj.border;
+        el.style.borderWidth = "4px";
+        el.style.borderStyle = "solid";
+      }
+      if (styleObj.color) el.style.color = styleObj.color;
+    };
+
     async function loadCloudData() {
       try {
         const docSnap = await getDoc(doc(db, "gym_data", "security_config"));
@@ -535,6 +658,27 @@
           window.cloudPassword = docSnap.data().pas;
         }
       } catch (e) { console.log("اعتماد الباسورد المحلي."); }
+
+      // تحميل كافة ألوان الموقع والكروت المحفوظة في قاعدة البيانات وتطبيقها فوراً
+      try {
+        const themeSnap = await getDoc(doc(db, "gym_data", "theme_config"));
+        if (themeSnap.exists() && themeSnap.data().themes) {
+          window.gymCustomThemes = themeSnap.data().themes;
+          if (!window.gymCustomThemes.cardThemes) window.gymCustomThemes.cardThemes = {};
+          if (!window.gymCustomThemes.globalElements) window.gymCustomThemes.globalElements = {};
+          
+          localStorage.setItem("gym_custom_themes", JSON.stringify(window.gymCustomThemes));
+          
+          // تطبيق اللون الأساسي للموقع
+          if (window.gymCustomThemes.mainThemeColor) {
+            document.documentElement.style.setProperty('--mainColorBorder', window.gymCustomThemes.mainThemeColor);
+          }
+          // تطبيق ألوان العناصر الثابتة المخصصة
+          Object.keys(window.gymCustomThemes.globalElements).forEach(id => {
+            window.applySavedElementStyle(id, window.gymCustomThemes.globalElements[id]);
+          });
+        }
+      } catch (e) { console.log("اعتماد الألوان المحلية."); }
 
       try {
         const membersSnap = await getDoc(doc(db, "gym_data", "members_config"));
@@ -549,6 +693,9 @@
   </script>
 
   <script>
+    // تعريف الكائن المسؤول عن إدارة وضع التعديل لتفادي خطأ الاختفاء
+    window.editingMembers = {};
+
     if (sessionStorage.getItem("isLoggedIn") === "true") {
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("mainDashboard").style.display = "block";
@@ -628,9 +775,16 @@
     let showControlsMode = false; 
     let currentFilter = "all"; 
     
+    // وضع التخصيص البصري الشامل للموقع
+    let isColorCustomizerMode = false; 
+    let currentCustomTargetType = null; // 'card' أو 'global'
+    let currentCustomTargetId = null; 
+    
     window.gymMembers = JSON.parse(localStorage.getItem("gym_members")) || [];
-    window.editingMembers = {}; 
-
+    window.gymCustomThemes = JSON.parse(localStorage.getItem("gym_custom_themes")) || { cardThemes: {}, globalElements: {} };
+    if (!window.gymCustomThemes.cardThemes) { window.gymCustomThemes.cardThemes = {}; }
+    if (!window.gymCustomThemes.globalElements) { window.gymCustomThemes.globalElements = {}; }
+    
     let myBlock = document.getElementById("ppee");
     let myButPas = document.getElementById("showPas");
     let myDivPas = document.getElementById("pasInp-div");
@@ -638,6 +792,88 @@
     let myDivPee = document.getElementById("peeInp-div");
     let controlBtn = document.getElementById("controlBtn");
     let smartSearchInp = document.getElementById("smartSearchInp");
+    
+    let customizerToggleBtn = document.getElementById("customizerToggleBtn");
+    let customizerModal = document.getElementById("customizerModal");
+    let pickerBg = document.getElementById("pickerBg");
+    let pickerBorder = document.getElementById("pickerBorder");
+    let pickerColor = document.getElementById("pickerColor");
+    let pickerMainTheme = document.getElementById("pickerMainTheme");
+    let btnApplyDefaultToCard = document.getElementById("btnApplyDefaultToCard");
+    let btnCloseCustomizerModal = document.getElementById("btnCloseCustomizerModal");
+    let customizerTargetName = document.getElementById("customizerTargetName");
+
+    // تفعيل وإلغاء وضع التعديل الشامل عند الضغط على الزرار المضيء
+    customizerToggleBtn.addEventListener("click", function() {
+      isColorCustomizerMode = !isColorCustomizerMode;
+      if (isColorCustomizerMode) {
+        customizerToggleBtn.classList.add("active-color-mode");
+        document.body.classList.add("customizer-highlight-mode");
+        document.querySelectorAll(".filter-tab:not(#customizerToggleBtn)").forEach(t => t.classList.remove("active-tab"));
+      } else {
+        customizerToggleBtn.classList.remove("active-color-mode");
+        document.body.classList.remove("customizer-highlight-mode");
+        document.querySelector(`.filter-tab[data-filter="${currentFilter}"]`).classList.add("active-tab");
+      }
+    });
+
+    // استماع لحدث الضغط على أي عنصر في الموقع بالكامل للتحكم فيه لايف وحفظه بالداتابيز
+    document.addEventListener("click", function(e) {
+      if (!isColorCustomizerMode) return;
+      
+      // استثناء أزرار لوحة التحكم أو نافذة الألوان نفسها من الضغط والتعديل البصري
+      if (e.target.closest('#customizerModal') || e.target.closest('.filter-tabs-container') || e.target.closest('.butAd') || e.target.closest('.card-toggle-span')) return;
+      
+      e.preventDefault();
+      e.stopPropagation();
+
+      let targetCard = e.target.closest('.member-card');
+      let targetGlobal = e.target.closest('#site-body, #site-header, #dashboard-panel, #panel-title-text');
+
+      if (targetCard) {
+        // إذا كان العنصر المضغوط كارت مشترك
+        let mId = targetCard.querySelector('.card-toggle-span').getAttribute('data-id');
+        let mName = targetCard.querySelector('.target-card-name-text')?.innerText || "كارت مشترك";
+        currentCustomTargetType = 'card';
+        currentCustomTargetId = mId;
+        customizerTargetName.innerText = `🎨 تخصيص كارت الكابتن: ${mName}`;
+        openColorPickerForElement(targetCard);
+      } else if (targetGlobal) {
+        // إذا كان العنصر المضغوط عنصر ثابت في الموقع بالكامل كالهيدر أو البانيل
+        currentCustomTargetType = 'global';
+        currentCustomTargetId = targetGlobal.id;
+        
+        let readableName = "عنصر بالموقع";
+        if (targetGlobal.id === 'site-body') readableName = "خلفية الموقع بالكامل";
+        if (targetGlobal.id === 'site-header') readableName = "منطقة الهيدر العلوي";
+        if (targetGlobal.id === 'dashboard-panel') readableName = "لوحة البيانات الكبيرة";
+        if (targetGlobal.id === 'panel-title-text') readableName = "عنوان لوحة البيانات العلوي";
+
+        customizerTargetName.innerText = `🎨 تخصيص مظهر: ${readableName}`;
+        openColorPickerForElement(targetGlobal);
+      }
+    }, true);
+
+    function openColorPickerForElement(element) {
+      let currentBg = window.getComputedStyle(element).backgroundColor;
+      let currentText = window.getComputedStyle(element).color;
+      let currentBorder = window.getComputedStyle(element).borderColor;
+      let currentMainTheme = window.getComputedStyle(document.documentElement).getPropertyValue('--mainColorBorder').trim();
+
+      pickerBg.value = rgbToHex(currentBg);
+      pickerColor.value = rgbToHex(currentText);
+      pickerBorder.value = rgbToHex(currentBorder);
+      pickerMainTheme.value = currentMainTheme.startsWith("#") ? currentMainTheme : rgbToHex(currentMainTheme);
+
+      customizerModal.style.display = "flex";
+    }
+
+    function rgbToHex(rgbString) {
+      if (!rgbString || rgbString.indexOf('rgb') === -1) return "#000000";
+      let rgb = rgbString.match(/\d+/g);
+      if (!rgb || rgb.length < 3) return "#000000";
+      return "#" + ((1 << 24) + (parseInt(rgb[0]) << 16) + (parseInt(rgb[1]) << 8) + parseInt(rgb[2])).toString(16).slice(1);
+    }
 
     function calculateExpiryDate(startDateString, days) {
       let startDate = new Date(startDateString);
@@ -709,6 +945,13 @@
         card.className = "member-card";
         card.style.borderRight = `8px solid ${statusColor}`;
 
+        if (window.gymCustomThemes.cardThemes && window.gymCustomThemes.cardThemes[member.id]) {
+          let cTheme = window.gymCustomThemes.cardThemes[member.id];
+          if (cTheme.bg) card.style.backgroundColor = cTheme.bg;
+          if (cTheme.border) card.style.borderColor = cTheme.border, card.style.borderWidth = "2px", card.style.borderStyle = "solid";
+          if (cTheme.color) card.style.color = cTheme.color;
+        }
+
         let paidVal = member.amountPaid || "0";
         let remainVal = member.amountRemaining || "0";
         let remainColor = parseFloat(remainVal) > 0 ? "rgb(255 70 70)" : "lightgreen";
@@ -755,11 +998,11 @@
               </div>
               <div class="member-row-item" style="margin-top: 15px;">
                 <span>اسم المشترك:</span>
-                <strong>${member.name}</strong>
+                <strong class="target-card-name-text">${member.name}</strong>
               </div>
               <div class="member-row-item">
                 <span>فترة الاشتراك:</span>
-                <span style="font-size: 20px; color: #eee;">من ${member.joinDate} <br>إلى ${member.expiryDate}</span>
+                <span style="font-size: 20px;">من ${member.joinDate} <br>إلى ${member.expiryDate}</span>
               </div>
               <div class="member-row-item">
                 <span>حالة الدفع :</span>
@@ -797,14 +1040,10 @@
           }
         });
 
-        // تعديل حاوية أزرار التحكم عشان تفتح إجباري لو وضع الإنبوتس (isCardEditing) شغال للكارت ده
         if (showControlsMode || isCardEditing) {
           let actionsDiv = document.createElement("div");
           actionsDiv.className = "control-actions-div";
-          // لو وضع الإنبوتس شغال للكارت، بنديله كلاس الظهور فوراً ليتخطى حكم الزرار الكبير (مثل الإنلاين ستايل)
-          if (isCardEditing) {
-            actionsDiv.classList.add("show-actions");
-          }
+          if (isCardEditing) { actionsDiv.classList.add("show-actions"); }
 
           let deleteBtn = document.createElement("button");
           deleteBtn.className = "btn-control btn-delete";
@@ -812,6 +1051,8 @@
           deleteBtn.addEventListener("click", function() {
             if(confirm(`هل أنت متأكد من حذف مشترك: ${member.name}؟`)) {
               window.gymMembers.splice(originalIndex, 1);
+              if (window.gymCustomThemes.cardThemes[member.id]) delete window.gymCustomThemes.cardThemes[member.id];
+              window.syncThemeColors(window.gymCustomThemes);
               window.syncWithFirebase(window.gymMembers);
               window.renderMembers();
             }
@@ -884,9 +1125,87 @@
       document.getElementById("pAd").innerHTML = filteredList.length;
     };
 
+    // ربط مغيرات الألوان لتعديل العنصر لايف لحظياً أمام عيون المستخدم
+    pickerBg.addEventListener("input", function() {
+      if (!currentCustomTargetId) return;
+      if (currentCustomTargetType === 'card') {
+        if (!window.gymCustomThemes.cardThemes[currentCustomTargetId]) window.gymCustomThemes.cardThemes[currentCustomTargetId] = {};
+        window.gymCustomThemes.cardThemes[currentCustomTargetId].bg = pickerBg.value;
+        window.renderMembers();
+      } else {
+        if (!window.gymCustomThemes.globalElements[currentCustomTargetId]) window.gymCustomThemes.globalElements[currentCustomTargetId] = {};
+        window.gymCustomThemes.globalElements[currentCustomTargetId].bg = pickerBg.value;
+        document.getElementById(currentCustomTargetId).style.backgroundColor = pickerBg.value;
+      }
+    });
+
+    pickerBorder.addEventListener("input", function() {
+      if (!currentCustomTargetId) return;
+      if (currentCustomTargetType === 'card') {
+        if (!window.gymCustomThemes.cardThemes[currentCustomTargetId]) window.gymCustomThemes.cardThemes[currentCustomTargetId] = {};
+        window.gymCustomThemes.cardThemes[currentCustomTargetId].border = pickerBorder.value;
+        window.renderMembers();
+      } else {
+        if (!window.gymCustomThemes.globalElements[currentCustomTargetId]) window.gymCustomThemes.globalElements[currentCustomTargetId] = {};
+        window.gymCustomThemes.globalElements[currentCustomTargetId].border = pickerBorder.value;
+        let el = document.getElementById(currentCustomTargetId);
+        el.style.borderColor = pickerBorder.value;
+        el.style.borderWidth = "4px"; el.style.borderStyle = "solid";
+      }
+    });
+
+    pickerColor.addEventListener("input", function() {
+      if (!currentCustomTargetId) return;
+      if (currentCustomTargetType === 'card') {
+        if (!window.gymCustomThemes.cardThemes[currentCustomTargetId]) window.gymCustomThemes.cardThemes[currentCustomTargetId] = {};
+        window.gymCustomThemes.cardThemes[currentCustomTargetId].color = pickerColor.value;
+        window.renderMembers();
+      } else {
+        if (!window.gymCustomThemes.globalElements[currentCustomTargetId]) window.gymCustomThemes.globalElements[currentCustomTargetId] = {};
+        window.gymCustomThemes.globalElements[currentCustomTargetId].color = pickerColor.value;
+        document.getElementById(currentCustomTargetId).style.color = pickerColor.value;
+      }
+    });
+
+    // ٥- محدد تغيير لون الموقع الأساسي كاملاً لحظياً
+    pickerMainTheme.addEventListener("input", function() {
+      document.documentElement.style.setProperty('--mainColorBorder', pickerMainTheme.value);
+      window.gymCustomThemes.mainThemeColor = pickerMainTheme.value;
+    });
+
+    // ٤- خيار إعادة العنصر للوضع الافتراضي وحذف ريكورد الألوان المخصصة له
+    btnApplyDefaultToCard.addEventListener("click", function() {
+      if (!currentCustomTargetId) return;
+      if (currentCustomTargetType === 'card') {
+        if (window.gymCustomThemes.cardThemes[currentCustomTargetId]) {
+          delete window.gymCustomThemes.cardThemes[currentCustomTargetId];
+          window.renderMembers();
+        }
+      } else {
+        if (window.gymCustomThemes.globalElements[currentCustomTargetId]) {
+          delete window.gymCustomThemes.globalElements[currentCustomTargetId];
+          let el = document.getElementById(currentCustomTargetId);
+          el.style.backgroundColor = "";
+          el.style.borderColor = "";
+          el.style.color = "";
+        }
+      }
+      customizerModal.style.display = "none";
+      window.syncThemeColors(window.gymCustomThemes);
+    });
+
+    // إغلاق مودال التخصيص ورفع الألوان المحدثة أونلاين فوراً لقاعدة البيانات
+    btnCloseCustomizerModal.addEventListener("click", function() {
+      customizerModal.style.display = "none";
+      window.syncThemeColors(window.gymCustomThemes); 
+      currentCustomTargetId = null;
+      currentCustomTargetType = null;
+      alert("تم حفظ ستايل الألوان الجديد ورفعه أونلاين بنجاح! 💾🔥");
+    });
+
     smartSearchInp.addEventListener("input", window.renderMembers);
 
-    document.querySelectorAll(".filter-tab").forEach(function(tab) {
+    document.querySelectorAll(".filter-tab:not(#customizerToggleBtn)").forEach(function(tab) {
       tab.addEventListener("click", function() {
         document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active-tab"));
         tab.classList.add("active-tab");
@@ -979,7 +1298,7 @@
       window.renderMembers(); 
     });
 
-    function responsiveCardFonts() {
+    function responsiveCardFonts(){
       let screenWidth = window.innerWidth;
       let scaleFactor = screenWidth < 384 ? (screenWidth / 384) : 1;
       let smallTexts = document.querySelectorAll(".member-row-item span, .member-main-info strong, .card-edit-input");
@@ -1016,12 +1335,10 @@
           let actionsDiv = card.querySelector(".control-actions-div");
           if (!actionsDiv) return;
           
-          // ابحث في الـ editingMembers لنفس كارت العضو لمعرفة هل وضع التعديل الخاص مفتوح له
           let toggleSpan = card.querySelector(".card-toggle-span");
           let mId = toggleSpan ? toggleSpan.getAttribute("data-id") : null;
           let isCardEditing = mId ? window.editingMembers[mId] : false;
 
-          // إذا كان وضع التحكم الرئيسي شغال، أو وضع تعديل الإنبوتس شغال إجباري للكارت الحالي
           if (window.showControlsMode || isCardEditing) {
             setTimeout(() => { actionsDiv.classList.add("show-actions"); }, 10);
           } else {
@@ -1045,3 +1362,4 @@
   </script>
   </body>
 </html>
+
