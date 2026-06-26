@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم وتأمين الجيم المحترفة</title>
+    <title>تايجر چم سستم</title>
     <link rel="stylesheet" href="css/Normalize.css"/>
     <link rel="stylesheet" href="css/fonts.css"/>
     <link rel="stylesheet" href="css/all.min.css"/>
@@ -190,7 +190,7 @@
     .block { display: none !important; }
 
     .member-card {
-      background-color: rgb(0 0 0);
+      background-color: rgb(0 0 0 / 0.8);
       padding: 20px;
       margin: 20px 0;
       border-radius: 12px;
@@ -385,7 +385,6 @@
       padding: 4px;
       transition: all .2s;
       cursor: pointer;
-      display: none; 
     }
     .twoS {
       width: 23px;
@@ -394,9 +393,8 @@
       display: block;
       border-radius: 50%;
       transition: all .2s;
-      display: none; 
     }
-    #controlBtn {display:none;} 
+    
     .card-toggle-span {
       width: 44px;
       height: 24px;
@@ -516,8 +514,6 @@
           <input class="code-inp" data-index="1" type="number"/>
           <input class="code-inp" data-index="2" type="number"/>
           <input class="code-inp" data-index="3" type="number"/>
-          <input class="code-inp" data-index="4" type="number"/>
-          <input class="code-inp" data-index="5" type="number"/>
         </div>
         <button type="button" id="submitPasBtn">تأكيد رمز الأمان</button>
       </div>
@@ -530,8 +526,8 @@
         <img class="img2" src="img/img6.jpg" alt="" />
         <button id="addPee" class="butAd" type="button">اضافة مشتركين</button>
         <button id="showPas" class="butAd two" type="button">تغيير رمز الامان</button>
-        <button id="controlBtn" class="butAd three" type="button">ازرار التحكم</button>
-        <span class="oneS"><span class="twoS"></span></span>
+        <button style="display:none;" id="controlBtn" class="butAd three" type="button">ازرار التحكم</button>
+        <span style="display:none;" class="oneS"><span class="twoS"></span></span>
       </header>
       
       <div id="pasInp-div"></div>
@@ -732,7 +728,7 @@
         }
       });
 
-      if(pass.length === 6){
+      if(pass.length === 4){
         if(pass !== window.cloudPassword){
           myNoPas.innerHTML = "غلط ⚠️";
           myNoPas.className = "istrue";
@@ -747,7 +743,7 @@
           }, 555);
         }
       }else {
-        myNoPas.innerHTML = "لا يقل عن 6 ارقام";
+        myNoPas.innerHTML = "لا يقل عن 4   ارقام";
         myNoPas.className = "istrue";
       }
     });
@@ -1228,14 +1224,14 @@
         myInpPas.placeholder = "اكتب رمز الامان الجديد";
         myDivPas.append(myInpPas, myButPasSubmit);
         myInpPas.addEventListener("input", function(){
-          if(myInpPas.value.length > 6) myInpPas.value = myInpPas.value.slice(0 , 6);
+          if(myInpPas.value.length > 4) myInpPas.value = myInpPas.value.slice(0 , 4);
         });
         myButPasSubmit.addEventListener("click", function(){
-          if(myInpPas.value.length === 6){
+          if(myInpPas.value.length === 4){
             window.syncPasswordWithFirebase(myInpPas.value);
             alert("تم تغيير رمز الامان بنجاح ورفعه أونلاين! 🔐");
             myInpPas.value = "";
-          }else { alert("⚠️اكتب 6 ارقام ‼️"); }
+          }else { alert("⚠️اكتب 4 ارقام ‼️"); }
         });
       }else { myDivPas.classList.toggle("block"); }
     });
@@ -1300,7 +1296,7 @@
       window.renderMembers(); 
     });
 
-    function responsiveCardFonts(){
+    function responsiveCardFonts() {
       let screenWidth = window.innerWidth;
       let scaleFactor = screenWidth < 384 ? (screenWidth / 384) : 1;
       let smallTexts = document.querySelectorAll(".member-row-item span, .member-main-info strong, .card-edit-input");
@@ -1364,4 +1360,3 @@
   </script>
   </body>
 </html>
-
