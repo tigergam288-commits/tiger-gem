@@ -17,6 +17,7 @@
     body {
       background-color: black;
       font-family: "Cairo Play";
+      overflow-x: hidden;
     }
     .imge {
       position: fixed;
@@ -27,7 +28,7 @@
     }
     header {
       position: relative;
-      margin-bottom: 50px;
+      margin-bottom: 70px;
     }
     .img1 {
       width: 100%;
@@ -40,10 +41,16 @@
       margin-top: -30px;
       box-shadow: -7px 7px 9px black;
       margin-bottom: 20px;
+      position: relative;
+      z-index: 5;
+    }
+    #mainDashboard {
+      width: 100%;
+      overflow: hidden;
     }
     .counterenr-div-pepol {
       width: 90%;
-      margin: 100px auto;
+      margin: 0px auto;
       border: 4px solid var(--mainColorBorder);
       padding: 25px;
       padding-top: 50px;
@@ -79,15 +86,22 @@
       color: white;
       text-shadow: 0px 0px 10px black,0px 0px 10px black;
       cursor: pointer;
-      margin-right: -10px;
-      margin-top: 45px;
+    }
+    .butAd {
+      width: 95%;
+      position: relative;
+      top: 0;
+      right: 0;
+      margin-left: 2.5%;
+      margin-top: 15px;
+      display: none;
     }
     .butAd:active, .butPas:active, .addBut:active {
       box-shadow: 0px 0px 0px 1.5px var(--mainColorBorder);
       transform: translateY(5px);
     }
-    .two { transform: translateY(150%); width:150px; }
-    .two:active { transform: translateY(calc(150% + 5px)); }
+    .two {width:95%;}
+    .two:active { transform: translateY(5px); }
     
     .three { transform: translateY(300%); width:290px; }
     .three:active { transform: translateY(calc(300% + 5px)); }
@@ -101,8 +115,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin-bottom: -50px;
-      margin-top: 70px;
+      margin-bottom: 50px;
+      margin-top: -100px;
     }
     .inpPas,
     .inpAddPee,
@@ -148,7 +162,7 @@
       padding: 20px;
       border-radius: 8px;
       width: 80%;
-      margin: 20px auto;
+      margin: -100px auto 20px;
       color: white ;
     }
     #peeInp-div label { color: white; }
@@ -190,7 +204,7 @@
     .block { display: none !important; }
 
     .member-card {
-      background-color: rgb(0 0 0 / 0.8);
+      background-color: rgb(0 0 0);
       padding: 20px;
       margin: 20px 0;
       border-radius: 12px;
@@ -256,9 +270,12 @@
     .search-wrapper {
       margin-bottom: 20px;
       direction: rtl;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .smart-search-input {
-      width: 100%;
+      flex: 1;
       height: 45px;
       border: 2px solid var(--mainColorBorder);
       border-radius: 8px;
@@ -269,6 +286,31 @@
       outline: none;
       background-color: #fff;
     }
+    
+    /* ستايل زر الفلترة بالأيام المضيء بجانب الانبوت */
+    .day-toggle-btn {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-color: rgb(50 50 50);
+      border: 2px solid var(--mainColorBorder);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      font-size: 18px;
+      transition: all 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    .day-toggle-btn.active-day-mode {
+      background-color: #2980b9;
+      border-color: #3498db;
+      color: white;
+      box-shadow: 0 0 15px #3498db;
+      animation: pulseGlow 1.5s infinite alternate;
+    }
+
     .filter-tabs-container {
       display: flex;
       gap: 8px;
@@ -304,7 +346,6 @@
       box-shadow: 0 0 5px var(--mainColorBorder);
     }
     
-    /* زرار التخصيص الرئيسي المضيء */
     .filter-tab.color-customizer-btn {
       background: #2c3e50;
       border-color: #34495e;
@@ -313,19 +354,16 @@
       background: #2980b9 !important;
       border-color: #3498db !important;
       box-shadow: 0 0 15px #3498db !important;
-      animation: pulseGlow 1.5s infinite alternate;
     }
     @keyframes pulseGlow {
       from { box-shadow: 0 0 4px #3498db; }
       to { box-shadow: 0 0 18px #3498db; }
     }
 
-    /* كلاس التنبيه البصري للعناصر القابلة للتعديل عند تفعيل الوضع الأزرق */
     .customizer-highlight-mode * {
       cursor: cell !important;
     }
 
-    /* ستايل نافذة خيارات الألوان المنبثقة */
     .color-picker-modal {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -501,6 +539,72 @@
       text-shadow: 0px 0px 8px white;
       text-wrap: nowrap;
     }
+    .selector-mine {
+      color: white;
+      position: absolute;
+      right: 0;
+      background-color: gray;
+      width: 100%;
+      padding: 7px;
+      text-align: right;
+      transform: translateY(-100%);
+      font-weight: bold;
+      display: flex;
+      justify-content: flex-end;
+      gap: 7px;
+    }
+    .selector-mine p {
+      text-shadow: 0px 0px 9px white;
+    }
+    .selector-i {
+      display: flex;
+      width: 20px;
+      height: 15px;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .selector-i span {
+      display: block;
+      width: 100%;
+      height: 20%;
+      background-color: white;
+      border-radius: 4px;
+      box-shadow: 0px 0px 5px white;
+    }
+    .oneSs {
+      display: block;
+      width: 55px;
+      height: 15px;
+      border-radius: 20px;
+      background-color: rgb(30 30 30);
+      display: flex;
+      align-items: center;
+      transition: all .5s;
+    }
+    .twoSs {
+      display: block;
+      background-color: #ddd;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      margin-left: 2px;
+      transition: .5s;
+      
+    }
+    .p {
+      color: white;
+      position: absolute;
+      top: 200px;
+      right: 10px;
+      font-weight: bold;
+      font-size: 30px;
+      text-align: center;
+      text-shadow: 0px 0px 9px black,0px 0px 9px white,0px 0px 9px white;
+      border: 3px solid white;
+      padding: 5px;
+      box-shadow: 0px 0px 9px white;
+      border-radius: 10px;
+    }
     </style>
   </head>
   <body id="site-body">
@@ -523,11 +627,23 @@
       <img class="imge" src="img/img11.png" alt="" />
       <header id="site-header">
         <img src="img/img9.jpg" class="img1" />
+        <div class="selector-mine">
+          <span class="oneSs"><span class="twoSs"></span></span>
+          <span class="selector-i">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          <p>الاختيارات</p>
+        </div>
         <img class="img2" src="img/img6.jpg" alt="" />
+        <div class="p">
+          TIGER GEM <div>سستم</div>
+        </div>
         <button id="addPee" class="butAd" type="button">اضافة مشتركين</button>
         <button id="showPas" class="butAd two" type="button">تغيير رمز الامان</button>
-        <button style="display:none;" id="controlBtn" class="butAd three" type="button">ازرار التحكم</button>
-        <span style="display:none;" class="oneS"><span class="twoS"></span></span>
+        <button style="display:none; visibility: hidden;" id="controlBtn" class="butAd three" type="button">ازرار التحكم</button>
+        <span style="display:none; " class="oneS"><span class="twoS"></span></span>
       </header>
       
       <div id="pasInp-div"></div>
@@ -539,6 +655,7 @@
         <h2 id="panel-title-text">لوحة البيانات</h2>
         
         <div class="search-wrapper">
+          <button class="day-toggle-btn" id="dayToggleBtn" title="تفعيل البحث الذكي بالأيام">📅</button>
           <input type="text" id="smartSearchInp" class="smart-search-input" placeholder="🔍 ابحث عن اسم المشترك ...">
         </div>
         <div class="filter-tabs-container">
@@ -626,7 +743,6 @@
       }
     };
 
-    // دالة المزامنة السحابية لحفظ ألوان أي عنصر في قاعدة البيانات أونلاين
     window.syncThemeColors = async function(customThemes) {
       localStorage.setItem("gym_custom_themes", JSON.stringify(customThemes));
       try {
@@ -636,7 +752,6 @@
       }
     };
 
-    // دالة لتطبيق الستايل على أي عنصر ثابت بالصفحة بناءً على الهوية المحفوظة
     window.applySavedElementStyle = function(elementId, styleObj) {
       let el = document.getElementById(elementId);
       if (!el) return;
@@ -657,7 +772,6 @@
         }
       } catch (e) { console.log("اعتماد الباسورد المحلي."); }
 
-      // تحميل كافة ألوان الموقع والكروت المحفوظة في قاعدة البيانات وتطبيقها فوراً
       try {
         const themeSnap = await getDoc(doc(db, "gym_data", "theme_config"));
         if (themeSnap.exists() && themeSnap.data().themes) {
@@ -667,11 +781,9 @@
           
           localStorage.setItem("gym_custom_themes", JSON.stringify(window.gymCustomThemes));
           
-          // تطبيق اللون الأساسي للموقع
           if (window.gymCustomThemes.mainThemeColor) {
             document.documentElement.style.setProperty('--mainColorBorder', window.gymCustomThemes.mainThemeColor);
           }
-          // تطبيق ألوان العناصر الثابتة المخصصة
           Object.keys(window.gymCustomThemes.globalElements).forEach(id => {
             window.applySavedElementStyle(id, window.gymCustomThemes.globalElements[id]);
           });
@@ -691,7 +803,31 @@
   </script>
 
   <script>
-    // تعريف الكائن المسؤول عن إدارة وضع التعديل لتفادي خطأ الاختفاء
+    let myMinesSelector = document.querySelector(".selector-mine");
+    let myOneSs = document.querySelector(".oneSs");
+    let myTwoSs = document.querySelector(".twoSs");
+    let myButAd = document.querySelectorAll(".butAd");
+    let isSpanOpen = false;
+    myMinesSelector.addEventListener("click",function(){
+      if(isSpanOpen === false){
+        isSpanOpen = true;
+        myOneSs.style.backgroundColor = "rgb(60 120 230)";
+        myTwoSs.style.transform = "translateX(38px)";
+        myTwoSs.style.backgroundColor = "white";
+        myButAd.forEach(function(ele){
+          ele.style.display = "block";
+        });
+      }else {
+        isSpanOpen = false;
+        myOneSs.style.backgroundColor = "rgb(30 30 30)";
+        myTwoSs.style.transform = "translateX(0.01px)";
+        myTwoSs.style.backgroundColor = "#ddd";
+        myButAd.forEach(function(ele){
+          ele.style.display = "none";
+        });
+      }
+    });
+    
     window.editingMembers = {};
 
     if (sessionStorage.getItem("isLoggedIn") === "true") {
@@ -773,11 +909,13 @@
     let showControlsMode = false; 
     let currentFilter = "all"; 
     
-    // وضع التخصيص البصري الشامل للموقع
     let isColorCustomizerMode = false; 
-    let currentCustomTargetType = null; // 'card' أو 'global'
+    let currentCustomTargetType = null; 
     let currentCustomTargetId = null; 
     
+    // متغير حالة البحث الذكي بالأيام
+    let isSmartDaySearchMode = false;
+
     window.gymMembers = JSON.parse(localStorage.getItem("gym_members")) || [];
     window.gymCustomThemes = JSON.parse(localStorage.getItem("gym_custom_themes")) || { cardThemes: {}, globalElements: {} };
     if (!window.gymCustomThemes.cardThemes) { window.gymCustomThemes.cardThemes = {}; }
@@ -790,6 +928,7 @@
     let myDivPee = document.getElementById("peeInp-div");
     let controlBtn = document.getElementById("controlBtn");
     let smartSearchInp = document.getElementById("smartSearchInp");
+    let dayToggleBtn = document.getElementById("dayToggleBtn");
     
     let customizerToggleBtn = document.getElementById("customizerToggleBtn");
     let customizerModal = document.getElementById("customizerModal");
@@ -801,7 +940,31 @@
     let btnCloseCustomizerModal = document.getElementById("btnCloseCustomizerModal");
     let customizerTargetName = document.getElementById("customizerTargetName");
 
-    // تفعيل وإلغاء وضع التعديل الشامل عند الضغط على الزرار المضيء
+    // تشغيل وإلغاء وضع البحث الذكي بالأيام
+    dayToggleBtn.addEventListener("click", function() {
+      isSmartDaySearchMode = !isSmartDaySearchMode;
+      smartSearchInp.value = ""; 
+      if (isSmartDaySearchMode) {
+        dayToggleBtn.classList.add("active-day-mode");
+        smartSearchInp.placeholder = "🔢 اكتب المقارنة (مثال: >30 أو <=15 أو 7)";
+      } else {
+        dayToggleBtn.classList.remove("active-day-mode");
+        smartSearchInp.placeholder = "🔍 ابحث عن اسم المشترك ...";
+      }
+      window.renderMembers();
+    });
+
+    // فلترة المدخلات لايف لمنع الحروف تماماً لو الزرار الأزرق منور
+    smartSearchInp.addEventListener("input", function(e) {
+      if (isSmartDaySearchMode) {
+        let cleanValue = smartSearchInp.value.replace(/[^0-9><=!]/g, '');
+        if (smartSearchInp.value !== cleanValue) {
+          smartSearchInp.value = cleanValue;
+        }
+      }
+      window.renderMembers();
+    });
+
     customizerToggleBtn.addEventListener("click", function() {
       isColorCustomizerMode = !isColorCustomizerMode;
       if (isColorCustomizerMode) {
@@ -815,12 +978,9 @@
       }
     });
 
-    // استماع لحدث الضغط على أي عنصر في الموقع بالكامل للتحكم فيه لايف وحفظه بالداتابيز
     document.addEventListener("click", function(e) {
       if (!isColorCustomizerMode) return;
-      
-      // استثناء أزرار لوحة التحكم أو نافذة الألوان نفسها من الضغط والتعديل البصري
-      if (e.target.closest('#customizerModal') || e.target.closest('.filter-tabs-container') || e.target.closest('.butAd') || e.target.closest('.card-toggle-span')) return;
+      if (e.target.closest('#customizerModal') || e.target.closest('.filter-tabs-container') || e.target.closest('.butAd') || e.target.closest('.card-toggle-span') || e.target.closest('.search-wrapper')) return;
       
       e.preventDefault();
       e.stopPropagation();
@@ -829,7 +989,6 @@
       let targetGlobal = e.target.closest('#site-body, #site-header, #dashboard-panel, #panel-title-text');
 
       if (targetCard) {
-        // إذا كان العنصر المضغوط كارت مشترك
         let mId = targetCard.querySelector('.card-toggle-span').getAttribute('data-id');
         let mName = targetCard.querySelector('.target-card-name-text')?.innerText || "كارت مشترك";
         currentCustomTargetType = 'card';
@@ -837,7 +996,6 @@
         customizerTargetName.innerText = `🎨 تخصيص كارت الكابتن: ${mName}`;
         openColorPickerForElement(targetCard);
       } else if (targetGlobal) {
-        // إذا كان العنصر المضغوط عنصر ثابت في الموقع بالكامل كالهيدر أو البانيل
         currentCustomTargetType = 'global';
         currentCustomTargetId = targetGlobal.id;
         
@@ -891,7 +1049,7 @@
     window.renderMembers = function() {
       let container = document.getElementById("membersContainer");
       container.innerHTML = "";
-      let searchValue = smartSearchInp.value.trim().toLowerCase();
+      let searchValue = smartSearchInp.value.trim();
 
       let filteredList = window.gymMembers.filter(function(member) {
         let daysLeft = getDaysLeft(member.expiryDate);
@@ -904,14 +1062,37 @@
       });
 
       if (searchValue !== "") {
-        let startsWithSearch = [];
-        let containsSearch = [];
-        filteredList.forEach(function(member) {
-          let mName = member.name.toLowerCase();
-          if (mName.startsWith(searchValue)) startsWithSearch.push(member);
-          else if (mName.includes(searchValue)) containsSearch.push(member);
-        });
-        filteredList = startsWithSearch.concat(containsSearch);
+        if (isSmartDaySearchMode) {
+          // دالة ذكية لتفسير الرموز الرياضية والأرقام المدخلة من الكابتن
+          let match = searchValue.match(/^([><=!]*)\s*(-?\d+)/);
+          if (match) {
+            let operator = match[1]; 
+            let targetDays = parseInt(match[2]);
+
+            filteredList = filteredList.filter(function(member) {
+              let actualDaysLeft = getDaysLeft(member.expiryDate);
+              
+              if (operator === ">") return actualDaysLeft > targetDays;
+              if (operator === "<") return actualDaysLeft < targetDays;
+              if (operator === ">=") return actualDaysLeft >= targetDays;
+              if (operator === "<=") return actualDaysLeft <= targetDays;
+              if (operator === "!=") return actualDaysLeft !== targetDays;
+              // لو كتب رقم مباشر أو كتب = ورقم
+              return actualDaysLeft === targetDays;
+            });
+          }
+        } else {
+          // البحث بالاسم الافتراضي العادي
+          let lowerSearch = searchValue.toLowerCase();
+          let startsWithSearch = [];
+          let containsSearch = [];
+          filteredList.forEach(function(member) {
+            let mName = member.name.toLowerCase();
+            if (mName.startsWith(lowerSearch)) startsWithSearch.push(member);
+            else if (mName.includes(lowerSearch)) containsSearch.push(member);
+          });
+          filteredList = startsWithSearch.concat(containsSearch);
+        }
       }
       
       if(filteredList.length === 0) {
@@ -1123,7 +1304,6 @@
       document.getElementById("pAd").innerHTML = filteredList.length;
     };
 
-    // ربط مغيرات الألوان لتعديل العنصر لايف لحظياً أمام عيون المستخدم
     pickerBg.addEventListener("input", function() {
       if (!currentCustomTargetId) return;
       if (currentCustomTargetType === 'card') {
@@ -1165,13 +1345,11 @@
       }
     });
 
-    // ٥- محدد تغيير لون الموقع الأساسي كاملاً لحظياً
     pickerMainTheme.addEventListener("input", function() {
       document.documentElement.style.setProperty('--mainColorBorder', pickerMainTheme.value);
       window.gymCustomThemes.mainThemeColor = pickerMainTheme.value;
     });
 
-    // ٤- خيار إعادة العنصر للوضع الافتراضي وحذف ريكورد الألوان المخصصة له
     btnApplyDefaultToCard.addEventListener("click", function() {
       if (!currentCustomTargetId) return;
       if (currentCustomTargetType === 'card') {
@@ -1189,10 +1367,9 @@
         }
       }
       customizerModal.style.display = "none";
-      window.syncThemeColors(window.gymCustomThemes);
+         window.syncThemeColors(window.gymCustomThemes);
     });
 
-    // إغلاق مودال التخصيص ورفع الألوان المحدثة أونلاين فوراً لقاعدة البيانات
     btnCloseCustomizerModal.addEventListener("click", function() {
       customizerModal.style.display = "none";
       window.syncThemeColors(window.gymCustomThemes); 
@@ -1200,8 +1377,6 @@
       currentCustomTargetType = null;
       alert("تم حفظ ستايل الألوان الجديد ورفعه أونلاين بنجاح! 💾🔥");
     });
-
-    smartSearchInp.addEventListener("input", window.renderMembers);
 
     document.querySelectorAll(".filter-tab:not(#customizerToggleBtn)").forEach(function(tab) {
       tab.addEventListener("click", function() {
